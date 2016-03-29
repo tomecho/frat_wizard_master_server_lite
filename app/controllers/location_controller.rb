@@ -11,10 +11,10 @@ class LocationController < ApplicationController
   end
 
   def update
-    @loc.update params.require(:location).permit(:long,:lat)
+    @loc.update params.require(:location).permit(:long, :lat)
     render json: @loc
   end
-  
+
   def create
     new = Location.create long: @loc_long, lat: @loc_lat
     render json: new
