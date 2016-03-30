@@ -1,5 +1,6 @@
 class Location < ActiveRecord::Base
   belongs_to :user
-  validates :long, :lat, presence: true
-  # on create find old location and set :most_recent = false
+  validates :long, :lat, :user, presence: true
+  #after_create :update_active
+  
 end
