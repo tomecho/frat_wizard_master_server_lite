@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160330161715) do
+ActiveRecord::Schema.define(version: 20160402210558) do
 
   create_table "locations", force: :cascade do |t|
     t.decimal  "long"
@@ -24,8 +24,10 @@ ActiveRecord::Schema.define(version: 20160330161715) do
   create_table "users", force: :cascade do |t|
     t.string   "first_name"
     t.string   "last_name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.integer  "most_recent_location_id"
+    t.boolean  "location_enabled"
   end
 
 end
