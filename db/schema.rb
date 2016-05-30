@@ -11,32 +11,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160527230425) do
+ActiveRecord::Schema.define(version: 20160530181039) do
+
+  create_table "addresses", force: :cascade do |t|
+    t.string "street"
+    t.string "street2"
+    t.string "city"
+    t.string "state"
+    t.string "zip"
+    t.string "country"
+  end
 
   create_table "locations", force: :cascade do |t|
-    t.decimal  "long"
-    t.decimal  "lat"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer  "user_id"
+    t.string "long"
+    t.string "lat"
+    t.string "description"
   end
 
   create_table "orgs", force: :cascade do |t|
     t.string   "name"
-    t.integer  "location_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
-
-  add_index "orgs", ["location_id"], name: "index_orgs_on_location_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "first_name"
     t.string   "last_name"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-    t.integer  "most_recent_location_id"
-    t.boolean  "location_enabled"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end
