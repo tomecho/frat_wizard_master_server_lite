@@ -30,7 +30,6 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 gem 'thin'
-gem 'geokit-rails'
 gem 'pry'
 
 group :development, :test do
