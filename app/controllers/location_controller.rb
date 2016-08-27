@@ -1,10 +1,10 @@
 require 'JSON'
 class LocationController < ApplicationController
-  before_action :find_loc, only: [:show, :update, :within]
+  before_action :find_loc, only: [:show, :update]
   before_action :set_data, only: [:update, :create]
 
   def index
-    render json: Location.group(:user_id).having('updated_at = MAX(updated_at)')
+    render json: Location.latest
   end
 
   def show
@@ -22,8 +22,15 @@ class LocationController < ApplicationController
   end
 
   def within
-    params.require(:location).require(:long,:lat) # the point to search
-    render json: @loc.within
+    point = params.permit(:long,:lat) # the point to search
+    results = []
+    Location.latest.each do |l|
+      node = {}
+      node[:name] = l.user.name
+      node[:within] = l.within([point[:lat],point[:long]])
+      results.push node
+    end
+    render json: results  
   end
 
   private

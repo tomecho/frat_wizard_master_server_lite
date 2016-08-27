@@ -39,6 +39,7 @@ group :development, :test do
   gem 'byebug'
   gem 'rubocop', '~> 0.39.0', require: false
   gem 'geokit-rails'
+  gem 'pry'
 end
 
 group :development do
