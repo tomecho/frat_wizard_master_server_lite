@@ -85,6 +85,7 @@ GEM
       mini_portile2 (~> 2.0.0.rc2)
     parser (2.3.0.7)
       ast (~> 2.2)
+    pg (0.18.4)
     powerpack (0.1.1)
     pry (0.10.4)
       coderay (~> 1.1.0)
@@ -174,6 +175,7 @@ DEPENDENCIES
   geokit-rails
   jbuilder (~> 2.0)
   jquery-rails
+  pg
   pry
   rails (= 4.2.5.1)
   rubocop (~> 0.39.0)
