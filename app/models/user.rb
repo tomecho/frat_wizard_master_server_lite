@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   has_many :location
+  validates :first_name, :last_name, presence: true
 
   def name
     "#{first_name} #{last_name}"
