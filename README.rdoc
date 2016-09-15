@@ -1,1 +1,1 @@
-I intend for this to be a lite version of the master server, it only handles checkins.
+api for greek wizard
