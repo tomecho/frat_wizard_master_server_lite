@@ -40,6 +40,7 @@ group :development, :test do
   gem 'rubocop', '~> 0.39.0', require: false
   gem 'geokit-rails'
   gem 'pry'
+  gem 'rspec'
 end
 
 group :production do
