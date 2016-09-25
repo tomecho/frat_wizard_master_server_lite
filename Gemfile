@@ -22,6 +22,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 # helps determine if point is within radius of another
 gem 'geocoder'
+gem 'geokit-rails'
 
 gem 'will_paginate', '~> 3.1.0'
 # Use ActiveModel has_secure_password
@@ -38,9 +39,9 @@ group :development, :test do
   gem 'sqlite3'
   gem 'byebug'
   gem 'rubocop', '~> 0.39.0', require: false
-  gem 'geokit-rails'
   gem 'pry'
   gem 'rspec-rails', '~> 3.5'
+  gem "factory_girl_rails", "~> 4.0"
 end
 
 group :production do
