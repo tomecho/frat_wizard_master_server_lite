@@ -41,6 +41,7 @@ group :development, :test do
   gem 'rubocop', '~> 0.39.0', require: false
   gem 'pry'
   gem 'rspec-rails', '~> 3.5'
+  gem 'simplecov'
   gem "factory_girl_rails", "~> 4.0"
 end
 
