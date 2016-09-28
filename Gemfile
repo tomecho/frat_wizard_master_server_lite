@@ -39,7 +39,7 @@ group :development, :test do
   gem 'sqlite3'
   gem 'byebug'
   gem 'rubocop', '~> 0.39.0', require: false
-  gem 'pry'
+  gem 'pry-byebug'
   gem 'rspec-rails', '~> 3.5'
   gem 'simplecov'
   gem "factory_girl_rails", "~> 4.0"
