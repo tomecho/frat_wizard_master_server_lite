@@ -9,9 +9,9 @@ RSpec.describe LocationController, type: :controller do
     u2 = create :user
     u2l1 = create :location, user: u2
     u2l2 = create :location, user: u2
-  
+
     get :index
-    expect(response.body).to eq([u1l2,u2l2].to_json)
+    expect(response.body).to eq([u1l2, u2l2].to_json)
   end
 
   it 'get #show' do
@@ -28,13 +28,13 @@ RSpec.describe LocationController, type: :controller do
     end
 
     it 'returns the points within the submitted location' do
-      get :within, params: { long: 1, lat: 1}
-      expect(JSON.parse(response.body).collect { |x| x["name"] }).to eq([@l1.user.name, @l2.user.name])
+      get :within, params: { long: 1, lat: 1 }
+      expect(JSON.parse(response.body).collect { |x| x['name'] }).to eq([@l1.user.name, @l2.user.name])
     end
 
     it 'properly handles nil params' do
       get :within, params: {}
-      expect(JSON.parse(response.body).collect { |x| x["name"] }).to be_empty
+      expect(JSON.parse(response.body).collect { |x| x['name'] }).to be_empty
     end
   end
 
@@ -49,7 +49,7 @@ RSpec.describe LocationController, type: :controller do
       expect do
         post :create, params: {}
       end.to change(Location, :count).by(0)
-      expect(response.code).to eq("500")
+      expect(response.code).to eq('500')
       expect(response.body).not_to be nil
     end
   end

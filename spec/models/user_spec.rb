@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-
   let(:user) { create :user }
 
   it 'has a valid factory' do
@@ -28,7 +27,7 @@ RSpec.describe User, type: :model do
       it 'returns nil without locations' do
         expect(user.latest_location).to be_nil
       end
-      
+
       it 'yields the latest location through the helper method' do
         create(:location, user: user)
         latest = create(:location, user: user)

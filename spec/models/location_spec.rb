@@ -19,19 +19,19 @@ RSpec.describe Location, type: :model do
 
   context 'within' do
     it 'returns true if within' do
-      raw_a = Geocoder.coordinates("25 Main St, Cooperstown, NY")
-      raw_b = Geocoder.coordinates("26 Main St, Cooperstown, NY") # next door!
+      raw_a = Geocoder.coordinates('25 Main St, Cooperstown, NY')
+      raw_b = Geocoder.coordinates('26 Main St, Cooperstown, NY') # next door!
       a = create :location, long: raw_a[1], lat: raw_a[0]
       b = create :location, long: raw_b[1], lat: raw_a[0]
-      expect(a.within([b.lat,b.long])).to be true
+      expect(a.within([b.lat, b.long])).to be true
     end
 
     it 'returns false if not within' do
-      raw_a = Geocoder.coordinates("25 Main St, Cooperstown, NY")
-      raw_b = Geocoder.coordinates("4 Wells Rd, Ellington, CT") # next nearly next oor
+      raw_a = Geocoder.coordinates('25 Main St, Cooperstown, NY')
+      raw_b = Geocoder.coordinates('4 Wells Rd, Ellington, CT') # next nearly next oor
       a = create :location, long: raw_a[1], lat: raw_a[0]
       b = create :location, long: raw_b[1], lat: raw_a[0]
-      expect(a.within([b.lat,b.long])).to be false
+      expect(a.within([b.lat, b.long])).to be false
     end
   end
 

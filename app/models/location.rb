@@ -8,8 +8,8 @@ class Location < ActiveRecord::Base
   end
 
   def within(point2)
-    return unless point2[0].present? and point2[1].present?
-    Geocoder::Calculations.distance_between([self.lat, self.long], point2, units: :mi) < RADIUS
+    return unless point2[0].present? && point2[1].present?
+    Geocoder::Calculations.distance_between([lat, long], point2, units: :mi) < RADIUS
   end
 
   def self.latest

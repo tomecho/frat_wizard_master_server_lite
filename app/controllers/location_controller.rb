@@ -21,28 +21,27 @@ class LocationController < ApplicationController
   end
 
   def within
-    point = params.permit(:long,:lat) # the point to search
+    point = params.permit(:long, :lat) # the point to search
     results = []
     Location.latest.each do |l|
-      if l.within([point[:lat],point[:long]])
-        node = {}
-        node[:name] = l.user.name
-        node[:within] = true
-        results.push node
-      end
+      next unless l.within([point[:lat], point[:long]])
+      node = {}
+      node[:name] = l.user.name
+      node[:within] = true
+      results.push node
     end
-    render json: results  
+    render json: results
   end
 
   private
 
-    def find_loc
-      @loc = Location.find(params.require(:id))
-    end
+  def find_loc
+    @loc = Location.find(params.require(:id))
+  end
 
-    def set_data
-      @loc_lat = params[:lat]
-      @loc_long = params[:long]
-      @user = params[:user_id]
-    end
+  def set_data
+    @loc_lat = params[:lat]
+    @loc_long = params[:long]
+    @user = params[:user_id]
+  end
 end

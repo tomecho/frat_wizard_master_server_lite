@@ -1,4 +1,4 @@
-class UserController < ApplicationController 
+class UserController < ApplicationController
   before_action :find_user, only: [:show, :update, :location]
 
   def index
@@ -24,7 +24,8 @@ class UserController < ApplicationController
   end
 
   private
-    def find_user
-      @user = User.find(params.require(:id))
-    end
+
+  def find_user
+    @user = User.find(params.require(:id))
+  end
 end

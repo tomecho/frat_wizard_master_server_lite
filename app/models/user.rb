@@ -7,6 +7,6 @@ class User < ActiveRecord::Base
   end
 
   def latest_location
-    self.location.order("updated_at DESC").first if self.location
+    location.order('updated_at DESC').first if location
   end
 end

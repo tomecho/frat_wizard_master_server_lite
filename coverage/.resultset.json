@@ -153,8 +153,6 @@
         1,
         1,
         null,
-        null,
-        null,
         1,
         1,
         1,
@@ -359,7 +357,6 @@
         2,
         2,
         null,
-        null,
         2,
         null,
         null,
@@ -387,7 +384,6 @@
         1,
         null,
         1,
-        null,
         null
       ],
       "/Users/tapeck/Documents/personal/frat_wizard_master_server_lite/app/controllers/user_controller.rb": [
@@ -417,6 +413,7 @@
         null,
         null,
         1,
+        null,
         1,
         0,
         null,
@@ -495,7 +492,6 @@
         1,
         null,
         1,
-        null,
         5,
         null,
         1,
@@ -553,6 +549,6 @@
         null
       ]
     },
-    "timestamp": 1475261515
+    "timestamp": 1475261569
   }
 }
