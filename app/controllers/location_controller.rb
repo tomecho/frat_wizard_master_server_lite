@@ -12,18 +12,24 @@ class LocationController < ApplicationController
   end
 
   def create
-    new = Location.create! long: @loc_long, lat: @loc_lat, user_id: @user
-    render json: new
+    new = Location.new long: @loc_long, lat: @loc_lat, user_id: @user
+    if new.save
+      render json: new
+    else
+      render json: new.errors, status: 500
+    end
   end
 
   def within
     point = params.permit(:long,:lat) # the point to search
     results = []
     Location.latest.each do |l|
-      node = {}
-      node[:name] = l.user.name
-      node[:within] = l.within([point[:lat],point[:long]])
-      results.push node
+      if l.within([point[:lat],point[:long]])
+        node = {}
+        node[:name] = l.user.name
+        node[:within] = true
+        results.push node
+      end
     end
     render json: results  
   end
@@ -35,8 +41,8 @@ class LocationController < ApplicationController
     end
 
     def set_data
-      @loc_lat = params.require(:lat)
-      @loc_long = params.require(:long)
-      @user = params.require(:user_id)
+      @loc_lat = params[:lat]
+      @loc_long = params[:long]
+      @user = params[:user_id]
     end
 end
