@@ -1,7 +1,7 @@
 require 'JSON'
 class LocationController < ApplicationController
-  before_action :find_loc, only: [:show, :update]
-  before_action :set_data, only: [:update, :create]
+  before_action :find_loc, only: [:show]
+  before_action :set_data, only: [:create]
 
   def index
     render json: Location.latest
