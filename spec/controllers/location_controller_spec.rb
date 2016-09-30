@@ -16,7 +16,7 @@ RSpec.describe LocationController, type: :controller do
 
   it 'get #show' do
     l = create :location
-    get :show, id: l.to_param 
+    get :show, params: { id: l.to_param }
     expect(response.body).to eq(l.to_json)
   end
 

@@ -14,7 +14,7 @@
       <img src="./assets/0.10.0/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" style="display:none;">
-      <div class="timestamp">Generated <abbr class="timeago" title="2016-09-28T14:40:34-04:00">2016-09-28T14:40:34-04:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2016-09-30T12:54:24-04:00">2016-09-30T12:54:24-04:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
@@ -25,7 +25,7 @@
      covered at
      <span class="covered_strength">
        <span class="red">
-         0.87
+         0.88
        </span>
     </span> hits/line)
   </h2>
@@ -227,7 +227,7 @@
         <td>2</td>
         <td>2</td>
         <td>0</td>
-        <td>1.0</td>
+        <td>1.5</td>
       </tr>
       
       <tr>
@@ -1099,7 +1099,7 @@
         <li class="covered" data-hits="1" data-linenumber="29">
           <span class="hits">1</span>
           
-          <code class="ruby">    config.middleware.insert_before 0, &quot;Rack::Cors&quot; do</code>
+          <code class="ruby">    config.middleware.insert_before 0, Rack::Cors do</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="30">
@@ -1339,13 +1339,13 @@
         <li class="covered" data-hits="1" data-linenumber="16">
           <span class="hits">1</span>
           
-          <code class="ruby">  config.serve_static_files   = true</code>
+          <code class="ruby">  config.public_file_server.enabled = true</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="17">
           <span class="hits">1</span>
           
-          <code class="ruby">  config.static_cache_control = &#39;public, max-age=3600&#39;</code>
+          <code class="ruby">  config.public_file_server.headers = { &#39;Cache-Control&#39; =&gt; &#39;public, max-age=3600&#39; }</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="18">
@@ -1972,8 +1972,8 @@
           <code class="ruby">ActiveSupport.on_load(:action_controller) do</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="8">
-          <span class="hits">1</span>
+        <li class="covered" data-hits="2" data-linenumber="8">
+          <span class="hits">2</span>
           
           <code class="ruby">  wrap_parameters format: [:json] if respond_to?(:wrap_parameters)</code>
         </li>
@@ -2203,7 +2203,7 @@
         <li class="covered" data-hits="1" data-linenumber="19">
           <span class="hits">1</span>
           
-          <code class="ruby">    get :show, id: l.to_param </code>
+          <code class="ruby">    get :show, params: { id: l.to_param }</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="20">
