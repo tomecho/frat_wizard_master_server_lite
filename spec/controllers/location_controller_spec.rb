@@ -20,4 +20,11 @@ RSpec.describe LocationController, type: :controller do
     expect(response.body).to eq(l.to_json)
   end
 
+  context 'post #create' do
+    it 'creates a location given proper params' do
+      expect do
+        post :create, params: build(:location).attributes
+      end.to change(Location, :count).by(1)
+    end
+  end
 end

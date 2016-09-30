@@ -11,11 +11,6 @@ class LocationController < ApplicationController
     render json: @loc
   end
 
-  def update
-    @loc.update! params.require(:location).permit(:long, :lat)
-    render json: @loc
-  end
-
   def create
     new = Location.create! long: @loc_long, lat: @loc_lat, user_id: @user
     render json: new
@@ -42,6 +37,6 @@ class LocationController < ApplicationController
     def set_data
       @loc_lat = params.require(:lat)
       @loc_long = params.require(:long)
-      @user = params.require(:user)
+      @user = params.require(:user_id)
     end
 end
