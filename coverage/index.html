@@ -14,14 +14,14 @@
       <img src="./assets/0.10.0/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" style="display:none;">
-      <div class="timestamp">Generated <abbr class="timeago" title="2016-10-03T14:31:42-04:00">2016-10-03T14:31:42-04:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2016-10-03T18:10:07-04:00">2016-10-03T18:10:07-04:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
         <div class="file_list_container" id="AllFiles">
   <h2>
     <span class="group_name">All Files</span>
-    (<span class="covered_percent"><span class="green">97.2%</span></span>
+    (<span class="covered_percent"><span class="green">97.23%</span></span>
      covered at
      <span class="covered_strength">
        <span class="green">
@@ -32,8 +32,8 @@
   <a name="AllFiles"></a>
   <div>
     <b>27</b> files in total.
-    <b>250</b> relevant lines. 
-    <span class="green"><b>243</b> lines covered</span> and
+    <b>253</b> relevant lines. 
+    <span class="green"><b>246</b> lines covered</span> and
     <span class="red"><b>7</b> lines missed </span>
   </div>
   <table class="file_list">
@@ -77,7 +77,7 @@
         <td>24</td>
         <td>17</td>
         <td>7</td>
-        <td>0.8</td>
+        <td>0.9</td>
       </tr>
       
       <tr>
@@ -117,7 +117,7 @@
         <td>8</td>
         <td>8</td>
         <td>0</td>
-        <td>1.8</td>
+        <td>1.9</td>
       </tr>
       
       <tr>
@@ -263,11 +263,11 @@
       <tr>
         <td class="strong"><a href="#756dd16ab8cbae732dfbc3816dc42acb2076e293" class="src_link" title="spec/controllers/user_controller_spec.rb">spec/controllers/user_controller_spec.rb</a></td>
         <td class="green strong">100.0 %</td>
-        <td>36</td>
-        <td>21</td>
-        <td>21</td>
+        <td>39</td>
+        <td>24</td>
+        <td>24</td>
         <td>0</td>
-        <td>4.2</td>
+        <td>3.8</td>
       </tr>
       
       <tr>
@@ -287,7 +287,7 @@
         <td>5</td>
         <td>5</td>
         <td>0</td>
-        <td>52.2</td>
+        <td>52.6</td>
       </tr>
       
       <tr>
@@ -884,8 +884,8 @@
           <code class="ruby">  def location</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="32">
-          <span class="hits">1</span>
+        <li class="covered" data-hits="2" data-linenumber="32">
+          <span class="hits">2</span>
           
           <code class="ruby">    render json: @user.latest_location</code>
         </li>
@@ -944,8 +944,8 @@
           <code class="ruby">  def find_user</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="42">
-          <span class="hits">2</span>
+        <li class="covered" data-hits="3" data-linenumber="42">
+          <span class="hits">3</span>
           
           <code class="ruby">    @user = User.find(params.require(:id))</code>
         </li>
@@ -1226,8 +1226,8 @@
           <code class="ruby">  def latest_location</code>
         </li>
       
-        <li class="covered" data-hits="3" data-linenumber="11">
-          <span class="hits">3</span>
+        <li class="covered" data-hits="4" data-linenumber="11">
+          <span class="hits">4</span>
           
           <code class="ruby">    location.order(&#39;updated_at DESC&#39;).first if location</code>
         </li>
@@ -2759,8 +2759,8 @@
     <h3>spec/controllers/user_controller_spec.rb</h3>
     <h4><span class="green">100.0 %</span> covered</h4>
     <div>
-      <b>21</b> relevant lines. 
-      <span class="green"><b>21</b> lines covered</span> and
+      <b>24</b> relevant lines. 
+      <span class="green"><b>24</b> lines covered</span> and
       <span class="red"><b>0</b> lines missed.</span>
     </div>
   </div>
@@ -2792,8 +2792,8 @@
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="3" data-linenumber="5">
-          <span class="hits">3</span>
+        <li class="covered" data-hits="4" data-linenumber="5">
+          <span class="hits">4</span>
           
           <code class="ruby">  let(:u1) { create :user }</code>
         </li>
@@ -2966,19 +2966,37 @@
           <code class="ruby">    it &#39;renders latest location&#39; do</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="34">
+        <li class="covered" data-hits="1" data-linenumber="34">
+          <span class="hits">1</span>
+          
+          <code class="ruby">      locs = create_list :location, 5, user: u1</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="35">
+          <span class="hits">1</span>
+          
+          <code class="ruby">      get :location, params: {id: u1.id}</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="36">
+          <span class="hits">1</span>
+          
+          <code class="ruby">      expect(response.body).to eq(locs.last.to_json)</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="37">
           
           
           <code class="ruby">    end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="35">
+        <li class="never" data-hits="" data-linenumber="38">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="36">
+        <li class="never" data-hits="" data-linenumber="39">
           
           
           <code class="ruby">end</code>
@@ -3080,14 +3098,14 @@
           <code class="ruby">    first_name &#39;pablo&#39;</code>
         </li>
       
-        <li class="covered" data-hits="129" data-linenumber="4">
-          <span class="hits">129</span>
+        <li class="covered" data-hits="130" data-linenumber="4">
+          <span class="hits">130</span>
           
           <code class="ruby">    sequence(:last_name) { |n| &quot;escabar#{n}&quot; }</code>
         </li>
       
-        <li class="covered" data-hits="129" data-linenumber="5">
-          <span class="hits">129</span>
+        <li class="covered" data-hits="130" data-linenumber="5">
+          <span class="hits">130</span>
           
           <code class="ruby">    sequence(:email) { |n| &quot;fake#{n}@example.com&quot; }</code>
         </li>

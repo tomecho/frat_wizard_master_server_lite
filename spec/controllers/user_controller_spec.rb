@@ -31,6 +31,12 @@ RSpec.describe UserController, type: :controller do
     end
 
     it 'renders latest location' do
+      locs = create_list :location, 5, user: u1
+      get :location, params: {id: u1.id}
+      expect(response.body).to eq(locs.last.to_json)
     end
+  end
+
+  context 'put #location' do
   end
 end
