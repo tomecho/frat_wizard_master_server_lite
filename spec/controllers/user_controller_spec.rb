@@ -15,7 +15,22 @@ RSpec.describe UserController, type: :controller do
     it 'handles pagination' do
       lots_of_users
       get :index, params: {page: 1}
-      expect(response.body).to eq(lots_of_users[0...10]) # the first ten users
+      expect(JSON.parse(response.body).collect { |u| u["first_name"] + " " + u["last_name"] }).to eq(lots_of_users[0...10].collect { |u| u.first_name + " " + u.last_name })
+    end
+  end
+
+  it 'get #show' do
+    get :show, params: {id: u1.id}
+    expect(response.body).to eq(u1.to_json)
+  end
+
+  context 'get #location' do
+    it 'renders nil on empty' do
+      get :location, params: {id: u1.id}
+      expect(response.body).to eq("null")
+    end
+
+    it 'renders latest location' do
     end
   end
 end
