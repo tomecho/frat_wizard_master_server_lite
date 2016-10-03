@@ -10,12 +10,21 @@ class UserController < ApplicationController
     end
   end
 
+  def update
+    @user.update user_params
+    if @user.save
+      render json: @user
+    else 
+      render json: @user, status: 500
+    end
+  end
+
   def show
     render json: @user
   end
 
   def create
-    new = User.create! params.require(:user).permit(:first_name, :last_name, :email)
+    new = User.create! user_params
     render json: new
   end
 
@@ -24,6 +33,10 @@ class UserController < ApplicationController
   end
 
   private
+
+  def user_params 
+    params.require(:user).permit(:first_name, :last_name, :email)
+  end
 
   def find_user
     @user = User.find(params.require(:id))
