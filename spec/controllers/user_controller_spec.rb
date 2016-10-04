@@ -47,4 +47,20 @@ RSpec.describe UserController, type: :controller do
       expect(JSON.parse(response.body)).to eq(JSON.parse(u1.to_json))
     end
   end
+
+  context 'post #create' do
+    it 'creates a record given valid params' do
+      user = attributes_for(:user)
+      expect do
+        post :create, params: { user: user }
+      end.to change(User, :count).by(1)
+      expect(response.code).to eq("200")
+    end
+
+    it 'returns given invalid params' do
+      expect do
+        post :create, params: {  }
+      end.to raise_error
+    end
+  end
 end
