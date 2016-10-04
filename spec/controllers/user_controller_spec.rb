@@ -37,6 +37,14 @@ RSpec.describe UserController, type: :controller do
     end
   end
 
-  context 'put #location' do
+  context 'put #update' do
+    it 'updates the record given valid params' do
+      put :update, params: { id: u1.id, user: { first_name: 'el', last_name: 'chapo' } }
+      u1.reload
+      expect(u1.first_name).to eq('el')
+      expect(u1.last_name).to eq('chapo')
+      expect(response.code).to eq("200")
+      expect(JSON.parse(response.body)).to eq(JSON.parse(u1.to_json))
+    end
   end
 end

@@ -11,6 +11,7 @@ class UserController < ApplicationController
   end
 
   def update
+    binding.pry
     @user.update user_params
     if @user.save
       render json: @user
