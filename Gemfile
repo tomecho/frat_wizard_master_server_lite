@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.5.1'
+gem 'rails', '5.0.0.1'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -22,6 +22,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 # helps determine if point is within radius of another
 gem 'geocoder'
+gem 'geokit-rails'
 
 gem 'will_paginate', '~> 3.1.0'
 # Use ActiveModel has_secure_password
@@ -38,8 +39,10 @@ group :development, :test do
   gem 'sqlite3'
   gem 'byebug'
   gem 'rubocop', '~> 0.39.0', require: false
-  gem 'geokit-rails'
-  gem 'pry'
+  gem 'pry-byebug'
+  gem 'rspec-rails', '~> 3.5'
+  gem 'simplecov'
+  gem 'factory_girl_rails', '~> 4.0'
 end
 
 group :production do

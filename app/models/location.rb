@@ -1,11 +1,15 @@
 class Location < ActiveRecord::Base
   belongs_to :user
   validates :long, :lat, :user_id, presence: true
-  # on create find old location and set :most_recent = false
-
   RADIUS = 0.0757576 # max radius is 400 feet or 0.0757576 miles
+
+  def self.default_radius
+    RADIUS
+  end
+
   def within(point2)
-    Geocoder::Calculations.distance_between([self.lat, self.long], point2) < RADIUS
+    return unless point2[0].present? && point2[1].present?
+    Geocoder::Calculations.distance_between([lat, long], point2, units: :mi) < RADIUS
   end
 
   def self.latest
