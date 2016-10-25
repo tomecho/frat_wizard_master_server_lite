@@ -60,7 +60,7 @@ RSpec.describe UserController, type: :controller do
     it 'returns given invalid params' do
       expect do
         post :create, params: {  }
-      end.to raise_error
+      end.to raise_error ActionController::ParameterMissing
     end
   end
 end
