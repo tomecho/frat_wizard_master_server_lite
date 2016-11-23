@@ -20,10 +20,10 @@ class ApplicationController < ActionController::Base
     def use_facebook_token(token)
       return false if token.nil?
       uri = URI.parse "https://graph.facebook.com/me?fields=email&access_token=#{token}"
-      response = Net::HTTP.get_response(uri)
+      fb = Net::HTTP.get_response(uri)
       
-      if response
-        email = JSON.parse(response)["email"] # if this exists then facebook has verified the token and found user for it
+      if fb && fb.code == 200 
+        email = JSON.parse(fb.body)["email"] # if this exists then facebook has verified the token and found user for it
         session[:user] = User.find_by email: email
         return true if session[:user]
       end

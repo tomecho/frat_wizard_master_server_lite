@@ -11,6 +11,11 @@
         1,
         null,
         null,
+        1,
+        1,
+        1,
+        null,
+        null,
         null
       ],
       "/Users/tapeck/Documents/personal/frat_wizard_master_server_lite/spec/rails_helper.rb": [
@@ -299,20 +304,21 @@
         1,
         null,
         1,
+        2,
+        1,
+        1,
+        null,
+        1,
         1,
         0,
         0,
-        null,
-        0,
-        0,
-        0,
         0,
         null,
-        0,
+        1,
         null,
         null
       ]
     },
-    "timestamp": 1479018344
+    "timestamp": 1479880057
   }
 }
