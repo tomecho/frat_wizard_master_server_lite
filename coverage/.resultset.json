@@ -375,9 +375,36 @@
       ],
       "/Users/tapeck/Documents/personal/frat_wizard_master_server_lite/app/controllers/application_controller.rb": [
         1,
+        1,
+        1,
+        null,
+        1,
         null,
         null,
         1,
+        1,
+        null,
+        1,
+        14,
+        0,
+        0,
+        null,
+        null,
+        null,
+        1,
+        null,
+        1,
+        0,
+        0,
+        0,
+        null,
+        0,
+        0,
+        0,
+        0,
+        null,
+        0,
+        null,
         null
       ],
       "/Users/tapeck/Documents/personal/frat_wizard_master_server_lite/spec/controllers/user_controller_spec.rb": [
@@ -629,6 +656,6 @@
         null
       ]
     },
-    "timestamp": 1477373004
+    "timestamp": 1479880379
   }
 }
