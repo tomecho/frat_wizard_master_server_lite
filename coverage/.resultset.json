@@ -456,7 +456,6 @@
         null,
         null,
         1,
-        null,
         17,
         null,
         null,
@@ -594,7 +593,6 @@
         0,
         null,
         null,
-        null,
         null
       ],
       "/Users/tapeck/Documents/personal/frat_wizard_master_server_lite/app/controllers/orgs_controller.rb": [
@@ -663,6 +661,7 @@
         null,
         1,
         null,
+        null,
         1,
         0,
         null,
@@ -686,13 +685,13 @@
         1,
         1,
         1,
-        13,
+        7,
         null,
         null,
         1,
         null,
         1,
-        13,
+        7,
         null,
         null,
         null,
@@ -973,7 +972,6 @@
         1,
         9,
         1,
-        null,
         1,
         0,
         null,
@@ -1004,7 +1002,6 @@
         null,
         1,
         0,
-        null,
         null,
         null,
         null
@@ -1025,7 +1022,6 @@
         0,
         null,
         0,
-        null,
         0,
         null,
         0,
@@ -1074,7 +1070,6 @@
         0,
         null,
         0,
-        null,
         0,
         null,
         0,
@@ -1102,6 +1097,6 @@
         null
       ]
     },
-    "timestamp": 1480046377
+    "timestamp": 1480114232
   }
 }
