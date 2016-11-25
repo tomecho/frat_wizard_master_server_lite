@@ -12,7 +12,6 @@ class LocationController < ApplicationController
   end
 
   def create
-    binding.pry
     new = Location.new long: @loc_long, lat: @loc_lat, user_id: @current_user.id
     if new.save
       render json: new

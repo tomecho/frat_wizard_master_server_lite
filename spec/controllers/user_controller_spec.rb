@@ -1,21 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe UserController, type: :controller do
-
+  before { current_user } # sets user
+    
   let(:u1) { create :user }
   let(:u2) { create :user }
-  let!(:lots_of_users) { create_list :user, 20 }
+  let!(:lots_of_users) { create_list :user, 5 }
 
   context 'get #index' do
     it 'renders a list of all users' do
       get :index
-      expect(JSON.parse(response.body).collect { |u| u["first_name"] + " " + u["last_name"] }).to eq(lots_of_users.collect { |u| u.first_name + " " + u.last_name })
+      expect(JSON.parse(response.body).collect { |u| u["first_name"] + " " + u["last_name"] }).to eq(User.all.collect { |u| u.name } )
     end
 
     it 'handles pagination' do
-      lots_of_users
+      #lots_of_users
       get :index, params: {page: 1}
-      expect(JSON.parse(response.body).collect { |u| u["first_name"] + " " + u["last_name"] }).to eq(lots_of_users[0...10].collect { |u| u.first_name + " " + u.last_name })
+      expect(JSON.parse(response.body).collect { |u| u["first_name"] + " " + u["last_name"] }).to eq(User.all[0...10].collect { |u| u.name })
     end
   end
 
