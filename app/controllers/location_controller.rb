@@ -35,12 +35,12 @@ class LocationController < ApplicationController
 
   private
 
-    def find_loc
-      @loc = Location.find(params.require(:id))
-    end
+  def find_loc
+    @loc = Location.find(params.require(:id))
+  end
 
-    def set_data
-      @loc_lat = params[:lat]
-      @loc_long = params[:long]
-    end
+  def set_data
+    @loc_lat = params[:lat]
+    @loc_long = params[:long]
+  end
 end

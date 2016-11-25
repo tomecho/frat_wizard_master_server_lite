@@ -11,21 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160530181039) do
-
-  create_table "addresses", force: :cascade do |t|
-    t.string "street"
-    t.string "street2"
-    t.string "city"
-    t.string "state"
-    t.string "zip"
-    t.string "country"
+ActiveRecord::Schema.define(version: 20_160_530_181_039) do
+  create_table 'addresses', force: :cascade do |t|
+    t.string 'street'
+    t.string 'street2'
+    t.string 'city'
+    t.string 'state'
+    t.string 'zip'
+    t.string 'country'
   end
 
-  create_table "orgs", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table 'orgs', force: :cascade do |t|
+    t.string   'name'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
   end
 
   create_table 'locations', force: :cascade do |t|
@@ -45,5 +44,4 @@ ActiveRecord::Schema.define(version: 20160530181039) do
     t.datetime 'updated_at', null: false
     t.text     'email'
   end
-
 end
