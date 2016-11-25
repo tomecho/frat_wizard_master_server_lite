@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "orgs/index", type: :view do
+  before { skip('not yet') }
   before(:each) do
     assign(:orgs, [
       Org.create!(

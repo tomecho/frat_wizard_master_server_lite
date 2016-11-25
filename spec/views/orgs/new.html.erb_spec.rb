@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "orgs/new", type: :view do
+  before { skip('not yet') }
   before(:each) do
     assign(:org, Org.new(
       :name => "MyString",

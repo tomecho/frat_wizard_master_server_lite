@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "orgs/edit", type: :view do
+  before { skip('dont do these') }
   before(:each) do
     @org = assign(:org, Org.create!(
       :name => "MyString",
