@@ -39,13 +39,15 @@ RSpec.describe LocationController, type: :controller do
   end
 
   context 'post #create' do
+    before { current_user } # sets user
+    
     it 'creates a location given proper params' do
       expect do
         post :create, params: build(:location).attributes
       end.to change(Location, :count).by(1)
     end
 
-    it 'renders 500 on failder' do
+    it 'renders 500 on failure' do
       expect do
         post :create, params: {}
       end.to change(Location, :count).by(0)

@@ -97,3 +97,12 @@ RSpec.configure do |config|
   #   # as the one that triggered the failure.
   #   Kernel.srand config.seed
 end
+
+def current_user(user = nil)
+  @current_user = if user
+                    user
+                  else
+                    create(:user)
+                  end
+  controller.instance_variable_set('@current_user', @current_user)
+end
