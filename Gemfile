@@ -33,16 +33,20 @@ gem 'will_paginate', '~> 3.1.0'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
+gem 'thin'
+gem 'pry'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'sqlite3'
   gem 'byebug'
   gem 'rubocop', '~> 0.39.0', require: false
+  gem 'rspec-rails'
+  gem 'capybara'
   gem 'pry-byebug'
-  gem 'rspec-rails', '~> 3.5'
   gem 'simplecov'
   gem 'factory_girl_rails', '~> 4.0'
+  gem 'rails-controller-testing'
 end
 
 group :production do

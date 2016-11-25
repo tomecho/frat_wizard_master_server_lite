@@ -4,4 +4,6 @@ Rails.application.routes.draw do
 
   get '/user/:id/location', to: 'user#location'
   resources :user, except: %i(delete)
+
+  resources :orgs
 end

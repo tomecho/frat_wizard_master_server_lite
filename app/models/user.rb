@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   has_many :location
   validates :first_name, :last_name, :email, presence: true
+  validates :email, uniqueness: true
   self.per_page = 10
 
   def name

@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe LocationController, type: :controller do
+  before { current_user } # sets user
+
   it 'get #index' do
     u1 = create :user
     u1l1 = create :location, user: u1
@@ -45,7 +47,7 @@ RSpec.describe LocationController, type: :controller do
       end.to change(Location, :count).by(1)
     end
 
-    it 'renders 500 on failder' do
+    it 'renders 500 on failure' do
       expect do
         post :create, params: {}
       end.to change(Location, :count).by(0)
