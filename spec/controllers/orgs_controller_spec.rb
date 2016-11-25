@@ -20,6 +20,8 @@ require 'rails_helper'
 
 RSpec.describe OrgsController, type: :controller do
 
+  before { current_user }
+
   # This should return the minimal set of attributes required to create a valid
   # Org. As you add validations to Org, be sure to
   # adjust the attributes here as well.

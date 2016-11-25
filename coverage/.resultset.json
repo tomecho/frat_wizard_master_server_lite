@@ -291,6 +291,22 @@
         null,
         null
       ],
+      "/Users/tapeck/Documents/personal/frat_wizard_master_server_lite/app/helpers/application_helper.rb": [
+        1,
+        null
+      ],
+      "/Users/tapeck/Documents/personal/frat_wizard_master_server_lite/app/helpers/location_helper.rb": [
+        1,
+        null
+      ],
+      "/Users/tapeck/Documents/personal/frat_wizard_master_server_lite/app/helpers/orgs_helper.rb": [
+        1,
+        null
+      ],
+      "/Users/tapeck/Documents/personal/frat_wizard_master_server_lite/app/helpers/users_helper.rb": [
+        1,
+        null
+      ],
       "/Users/tapeck/Documents/personal/frat_wizard_master_server_lite/spec/factories/locations.rb": [
         1,
         1,
@@ -312,8 +328,8 @@
         1,
         1,
         1,
-        86,
-        86,
+        102,
+        102,
         null,
         null
       ],
@@ -324,21 +340,7 @@
         null,
         1,
         1,
-        null
-      ],
-      "/Users/tapeck/Documents/personal/frat_wizard_master_server_lite/app/helpers/application_helper.rb": [
-        1,
-        null
-      ],
-      "/Users/tapeck/Documents/personal/frat_wizard_master_server_lite/app/helpers/location_helper.rb": [
-        1,
-        null
-      ],
-      "/Users/tapeck/Documents/personal/frat_wizard_master_server_lite/app/helpers/orgs_helper.rb": [
-        1,
-        null
-      ],
-      "/Users/tapeck/Documents/personal/frat_wizard_master_server_lite/app/helpers/users_helper.rb": [
+        null,
         1,
         null
       ],
@@ -402,14 +404,14 @@
         1,
         null,
         1,
-        14,
-        14,
+        15,
+        15,
         0,
         0,
         null,
-        14,
+        15,
         null,
-        14,
+        15,
         null,
         null,
         null,
@@ -455,6 +457,8 @@
         null,
         1,
         null,
+        17,
+        null,
         null,
         null,
         null,
@@ -490,7 +494,7 @@
         1,
         1,
         1,
-        0,
+        1,
         null,
         null,
         null,
@@ -610,7 +614,7 @@
         null,
         null,
         1,
-        0,
+        1,
         null,
         null,
         null,
@@ -939,6 +943,7 @@
         1,
         1,
         1,
+        1,
         null,
         1,
         17,
@@ -953,9 +958,10 @@
         1,
         null,
         1,
+        2,
         1,
         1,
-        1,
+        0,
         0,
         null,
         null,
@@ -1096,6 +1102,6 @@
         null
       ]
     },
-    "timestamp": 1480045497
+    "timestamp": 1480046377
   }
 }

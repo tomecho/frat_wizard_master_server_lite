@@ -46,6 +46,7 @@ group :development, :test do
   gem 'pry-byebug'
   gem 'simplecov'
   gem 'factory_girl_rails', '~> 4.0'
+  gem 'rails-controller-testing'
 end
 
 group :production do
