@@ -10,13 +10,13 @@ class ApplicationController < ActionController::Base
 
   def auth_user
     unless session[:user]
-      if Rails.env.production? # will refuse to test this
-        unless use_facebook_token(request.headers['Authorization'])
-          render(:head, status: :unauthorized) && return unless @current_user
-        end
-      elsif Rails.env.test?
+      if Rails.env.test?
         # test will force set @current_user
         render(:head, status: :unauthorized) && return unless @current_user
+      else
+        unless use_facebook_token(request.headers['Authorization'])
+          render(:head, status: :unauthorized) 
+        end
       end
     end
   end
