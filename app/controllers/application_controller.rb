@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
       end
 
       unless success && @current_user
-        render(:head, status: :unauthorized) && return
+        render json: nil, status: :unauthorized && return
       end
     end
   end
@@ -31,11 +31,11 @@ class ApplicationController < ActionController::Base
     end
 
     if success && @current_user # verified and found user
-      render :head, status: 202 # accepted
+      render json: nil, status: 202 # accepted
     elsif success && !@current_user # verified but no user found
-      render :head, status: 204
+      render json: nil, status: 204
     else # not verified
-      render :head, status: 401
+      render json: nil, status: 401
     end
   end
 
