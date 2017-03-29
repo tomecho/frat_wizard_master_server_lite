@@ -15,3 +15,9 @@
 /log/*
 !/log/.keep
 /tmp
+
+# Ignore some coverage files
+coverage/.resultset.json
+coverage/.resultset.json.lock
+coverage/assets/*
+coverage/index.html
