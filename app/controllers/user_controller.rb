@@ -26,11 +26,11 @@ class UserController < ApplicationController
   end
 
   def create
-    email = authenticate_with_http_token do |token|
-      get_email_by_token(token)
+    user_data = authenticate_with_http_token do |token|
+      get_facebook_profile_by_token(token, %i(email first_name last_name))
     end
 
-    new = User.new user_params.merge(email: email)
+    new = User.new user_data
     if new.save
       render json: new
     else

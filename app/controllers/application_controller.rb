@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base
   private
 
   def use_facebook_token(token)
-    email = get_email_by_token(token)
+    email = get_facebook_profile_by_token(token, %i(email))
     user = User.find_by email: email
     @current_user = user
     if email

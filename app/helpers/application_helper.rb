@@ -1,7 +1,7 @@
 module ApplicationHelper
-  def get_email_by_token(token)
+  def get_facebook_profile_by_token(token, fields = [])
     return false if token.nil?
-    uri = URI.parse "https://graph.facebook.com/me?fields=email&access_token=#{token}"
+    uri = URI.parse "https://graph.facebook.com/me?fields=#{fields.map(&:to_s).join(',')}&access_token=#{token}"
     fb = Net::HTTP.get_response(uri)
 
     if fb && fb.code == '200'
