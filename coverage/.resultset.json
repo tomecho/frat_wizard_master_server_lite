@@ -336,6 +336,8 @@
       "/Users/tapeck/Documents/personal/frat_wizard_master_server_lite/config/routes.rb": [
         1,
         1,
+        null,
+        1,
         1,
         null,
         1,
@@ -404,18 +406,17 @@
         1,
         null,
         1,
-        15,
-        15,
+        13,
         null,
-        15,
-        null,
-        0,
-        0,
-        null,
+        13,
         null,
         0,
         0,
+        0,
         null,
+        null,
+        0,
+        0,
         null,
         null,
         null,
@@ -423,6 +424,7 @@
         1,
         0,
         0,
+        0,
         null,
         null,
         0,
@@ -440,9 +442,18 @@
         0,
         0,
         0,
+        0,
+        0,
         null,
         0,
+        null,
+        null,
+        null,
+        1,
         0,
+        0,
+        0,
+        null,
         0,
         0,
         0,
@@ -759,6 +770,7 @@
         null
       ],
       "/Users/tapeck/Documents/personal/frat_wizard_master_server_lite/app/controllers/user_controller.rb": [
+        1,
         1,
         1,
         null,
@@ -1114,6 +1126,6 @@
         null
       ]
     },
-    "timestamp": 1482893594
+    "timestamp": 1491086861
   }
 }

@@ -1,4 +1,7 @@
 class UserController < ApplicationController
+  include ApplicationHelper
+
+  skip_before_action :auth_user, only: [:create] # may seem silly but yes you dont need to be authed for this
   before_action :find_user, only: [:show, :update, :location]
 
   def index
@@ -11,8 +14,7 @@ class UserController < ApplicationController
   end
 
   def update
-    @user.update user_params
-    if @user.save
+    if @user.update(user_params)
       render json: @user
     else
       render json: @user, status: 500
@@ -24,7 +26,11 @@ class UserController < ApplicationController
   end
 
   def create
-    new = User.new user_params
+    email = authenticate_with_http_token do |token|
+      get_email_by_token(token)
+    end
+
+    new = User.new user_params.merge(email: email)
     if new.save
       render json: new
     else
@@ -39,7 +45,7 @@ class UserController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :email)
+    params.require(:user).permit(:first_name, :last_name)
   end
 
   def find_user

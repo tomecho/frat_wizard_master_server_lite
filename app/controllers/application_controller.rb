@@ -6,7 +6,6 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :null_session
-  skip_before_action :user, only: [:create] # may seem silly but yes you dont need to be authed for this
   before_action :auth_user, except: %i(verify_facebook_token)
 
   def auth_user
@@ -43,16 +42,13 @@ class ApplicationController < ActionController::Base
   private
 
   def use_facebook_token(token)
-    return false if token.nil?
-    uri = URI.parse "https://graph.facebook.com/me?fields=email&access_token=#{token}"
-    fb = Net::HTTP.get_response(uri)
-
-    if fb && fb.code == '200'
-      email = JSON.parse(fb.body)['email'] # if this exists then facebook has verified the token and found user for it
-      user = User.find_by email: email
-      @current_user = user
-      return true if email
+    email = get_email_by_token(token)
+    user = User.find_by email: email
+    @current_user = user
+    if email
+      return true
+    else
+      return false
     end
-    false
   end
 end
