@@ -33,9 +33,9 @@ class ApplicationController < ActionController::Base
       if !profile
         # not verified, cant create
         render json: nil, status: 401 and return
-      elsif User.find_by(email: profile['email'])
+      elsif user = User.find_by(email: profile['email'])
         # found valid user
-        render json: nil, status: 202 and return
+        render json: user, status: 202 and return
       else
         # facebook sent us valid info lets try and create a profile
         fields = profile.with_indifferent_access.keys
@@ -44,7 +44,7 @@ class ApplicationController < ActionController::Base
           user = User.new profile.select { |k| required_keys.include? k }
           if user.save
             # created user
-            render json: nil, status: 201 and return
+            render json: user, status: 201 and return
           end
           # else fall through to 500
         end
