@@ -1,7 +1,4 @@
 class UserController < ApplicationController
-  include ApplicationHelper
-
-  skip_before_action :auth_user, only: [:create] # may seem silly but yes you dont need to be authed for this
   before_action :find_user, only: [:show, :update, :location]
 
   def index
@@ -23,19 +20,6 @@ class UserController < ApplicationController
 
   def show
     render json: @user
-  end
-
-  def create
-    user_data = authenticate_with_http_token do |token|
-      get_facebook_profile_by_token(token, %i(email first_name last_name))
-    end
-
-    new = User.new user_data
-    if new.save
-      render json: new
-    else
-      render json: nil, status: 500
-    end
   end
 
   def location

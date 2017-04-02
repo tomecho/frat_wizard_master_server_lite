@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :null_session
   before_action :auth_user, except: %i(verify_facebook_token)
 
+  # sets @current_user before any other controler (execpt the public actions)
   def auth_user
     if Rails.env.test?
       # test will force set @current_user
@@ -24,25 +25,41 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # verify token and attempt to find user, if doesnt exist, create one
   def verify_facebook_token
-    success = false
     authenticate_with_http_token do |token, _options|
-      success = use_facebook_token(token)
-    end
+      profile = get_facebook_profile_by_token(token, %i(email first_name last_name))
 
-    if success && @current_user # verified and found user
-      render json: nil, status: 202 # accepted
-    elsif success && !@current_user # verified but no user found
-      render json: nil, status: 204
-    else # not verified
-      render json: nil, status: 401
+      if !profile
+        # not verified, cant create
+        render json: nil, status: 401 and return
+      elsif User.find_by(email: profile['email'])
+        # found valid user
+        render json: nil, status: 202 and return
+      else
+        # facebook sent us valid info lets try and create a profile
+        fields = profile.with_indifferent_access.keys
+        required_keys = %w(email first_name last_name)
+        if (fields & required_keys) == required_keys
+          user = User.new profile.select { |k| required_keys.include? k }
+          if user.save
+            # created user
+            render json: nil, status: 201 and return
+          end
+          # else fall through to 500
+        end
+
+        # just plain couldnt do it
+        render json: nil, status: 500 and return
+      end
     end
   end
 
   private
 
+  # return true if token is valid, sets @current_user if we found a user
   def use_facebook_token(token)
-    email = get_facebook_profile_by_token(token, %i(email))
+    email = get_facebook_profile_by_token(token, %i(email))['email']
     user = User.find_by email: email
     @current_user = user
     if email

@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   resources :location, except: %i(update)
 
   get '/user/:id/location', to: 'user#location'
-  resources :user, except: %i(delete)
+  resources :user, except: %i(delete create)
 
   resources :orgs
 end
