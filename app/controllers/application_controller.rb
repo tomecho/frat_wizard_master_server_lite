@@ -3,38 +3,69 @@ require 'uri'
 require 'JSON'
 
 class ApplicationController < ActionController::Base
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
-  protect_from_forgery with: :null_session
-  before_action :auth_user
+  include ApplicationHelper
 
+  protect_from_forgery with: :null_session
+  before_action :auth_user, except: %i(verify_facebook_token)
+
+  # sets @current_user before any other controler (execpt the public actions)
   def auth_user
-    unless session[:user]
-      if Rails.env.production? # will refuse to test this
-        unless use_facebook_token(request.headers['Authorization'])
-          render(:head, status: :unauthorized) && return unless @current_user
+    if Rails.env.test?
+      # test will force set @current_user
+      render(:head, status: :unauthorized) && return unless @current_user
+    else
+      success = false
+      authenticate_with_http_token do |token, _options|
+        success = use_facebook_token(token)
+      end
+
+      unless success && @current_user
+        render json: nil, status: :unauthorized && return
+      end
+    end
+  end
+
+  # verify token and attempt to find user, if doesnt exist, create one
+  def verify_facebook_token
+    authenticate_with_http_token do |token, _options|
+      profile = get_facebook_profile_by_token(token, %i(email first_name last_name))
+
+      if !profile
+        # not verified, cant create
+        render json: nil, status: 401 and return
+      elsif user = User.find_by(email: profile['email'])
+        # found valid user
+        render json: user, status: 202 and return
+      else
+        # facebook sent us valid info lets try and create a profile
+        fields = profile.with_indifferent_access.keys
+        required_keys = %w(email first_name last_name)
+        if (fields & required_keys) == required_keys
+          user = User.new profile.select { |k| required_keys.include? k }
+          if user.save
+            # created user
+            render json: user, status: 201 and return
+          end
+          # else fall through to 500
         end
-      elsif Rails.env.test?
-        # test will force set @current_user
-        render(:head, status: :unauthorized) && return unless @current_user
+
+        # just plain couldnt do it
+        render json: nil, status: 500 and return
       end
     end
   end
 
   private
 
+  # return true if token is valid, sets @current_user if we found a user
   def use_facebook_token(token)
-    return false if token.nil?
-    uri = URI.parse "https://graph.facebook.com/me?fields=email&access_token=#{token}"
-    fb = Net::HTTP.get_response(uri)
-
-    if fb && fb.code == 200
-      email = JSON.parse(fb.body)['email'] # if this exists then facebook has verified the token and found user for it
-      user = User.find_by email: email
-      session[:user] = user
-      @current_user = user
-      return true if session[:user]
+    email = get_facebook_profile_by_token(token, %i(email))['email']
+    user = User.find_by email: email
+    @current_user = user
+    if email
+      return true
+    else
+      return false
     end
-    false
   end
 end
