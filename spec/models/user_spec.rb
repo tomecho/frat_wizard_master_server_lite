@@ -16,6 +16,10 @@ RSpec.describe User, type: :model do
     it 'validates presnece of email' do
       expect(build(:user, email: nil)).not_to be_valid
     end
+
+    it 'is valid w/o org' do
+      expect(build(:user, org: create(:org))).to have_attributes org => org.last
+    end
   end
 
   context 'helper methods' do

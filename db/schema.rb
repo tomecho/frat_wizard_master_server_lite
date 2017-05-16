@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,37 +10,40 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_160_530_181_039) do
-  create_table 'addresses', force: :cascade do |t|
-    t.string 'street'
-    t.string 'street2'
-    t.string 'city'
-    t.string 'state'
-    t.string 'zip'
-    t.string 'country'
+ActiveRecord::Schema.define(version: 20170516002256) do
+
+  create_table "addresses", force: :cascade do |t|
+    t.string "street"
+    t.string "street2"
+    t.string "city"
+    t.string "state"
+    t.string "zip"
+    t.string "country"
   end
 
-  create_table 'orgs', force: :cascade do |t|
-    t.string   'name'
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
+  create_table "locations", force: :cascade do |t|
+    t.decimal  "long"
+    t.decimal  "lat"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "user_id"
+    t.index ["user_id"], name: "index_locations_on_user_id"
   end
 
-  create_table 'locations', force: :cascade do |t|
-    t.decimal  'long'
-    t.decimal  'lat'
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.integer  'user_id'
+  create_table "orgs", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  add_index 'locations', ['user_id'], name: 'index_locations_on_user_id'
-
-  create_table 'users', force: :cascade do |t|
-    t.string   'first_name'
-    t.string   'last_name'
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.text     'email'
+  create_table "users", force: :cascade do |t|
+    t.string   "first_name"
+    t.string   "last_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text     "email"
+    t.integer  "orgs_id"
+    t.index ["orgs_id"], name: "index_users_on_orgs_id"
   end
+
 end
