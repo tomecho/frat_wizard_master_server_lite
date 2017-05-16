@@ -18,6 +18,7 @@ RSpec.describe User, type: :model do
     end
 
     it 'is valid w/o org' do
+      binding.pry
       expect(build(:user, org: create(:org))).to have_attributes org => org.last
     end
   end
