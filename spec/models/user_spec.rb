@@ -24,7 +24,7 @@ RSpec.describe User, type: :model do
     end
 
     it 'can have many orgs' do
-      expect(build(:user, orgs: [ create_list(:org, 2) ])).to have_attributes orgs: [ Org.all.last(2) ]
+      expect(build(:user, orgs: create_list(:org, 2)).orgs).to match_array Org.all.last(2)
     end
   end
 

@@ -3,6 +3,7 @@ class AddOrgUsers < ActiveRecord::Migration[5.0]
     create_table :org_users do |f|
       f.integer :org_id
       f.integer :user_id
+      f.timestamps
     end
 
     remove_column :users, :org_id

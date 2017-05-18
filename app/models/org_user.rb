@@ -1,4 +1,4 @@
-class OrgUsers < ActiveRecord::Base
+class OrgUser < ActiveRecord::Base
   belongs_to :user
   belongs_to :org
   validates :user, :org, presence: true
