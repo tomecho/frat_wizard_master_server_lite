@@ -12,5 +12,10 @@ RSpec.describe OrgClaimCode, type: :model do
       claim = create :org_claim_code
       expect(create(:user, org_claim_code: claim.code)).to have_attributes orgs: [ claim.org ]
     end
+
+    it 'wont add unless we use a valid claim' do
+      claim = create :org_claim_code
+      expect(create(:user, org_claim_code: 'XXX')).not_to have_attributes orgs: [ claim.org ]
+    end
   end
 end

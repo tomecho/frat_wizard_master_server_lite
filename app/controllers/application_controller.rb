@@ -22,6 +22,11 @@ class ApplicationController < ActionController::Base
       unless success && @current_user
         render json: nil, status: :unauthorized && return
       end
+
+      # now check permission for the requested controller, action
+      if !@current_user.has_permission?(params[:controller], params[:action], params[:id])
+        render json: nil, status: :forbidden && return
+      end
     end
   end
 
