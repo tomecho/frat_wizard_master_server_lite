@@ -1,10 +1,10 @@
 class User < ActiveRecord::Base
+  self.per_page = 10
   has_many :location
   has_many :org_users
   has_many :orgs, through: :org_users
   validates :first_name, :last_name, :email, presence: true
   validates :email, uniqueness: true
-  self.per_page = 10
 
   def name
     "#{first_name} #{last_name}"
