@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :groups
   post '/verify_facebook', to: 'application#verify_facebook_token'
 
   get '/location/within', to: 'location#within'
