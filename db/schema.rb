@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170520192552) do
+ActiveRecord::Schema.define(version: 20170524020057) do
 
   create_table "addresses", force: :cascade do |t|
     t.string   "street"
@@ -21,6 +21,24 @@ ActiveRecord::Schema.define(version: 20170520192552) do
     t.string   "country"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "group_user", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "org_id"
+    t.integer  "group_id"
+    t.index ["group_id"], name: "index_group_user_on_group_id"
+    t.index ["org_id"], name: "index_group_user_on_org_id"
+  end
+
+  create_table "groups", force: :cascade do |t|
+    t.integer  "org_id"
+    t.string   "name"
+    t.string   "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["org_id"], name: "index_groups_on_org_id"
   end
 
   create_table "locations", force: :cascade do |t|
