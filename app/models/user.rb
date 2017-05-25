@@ -11,9 +11,11 @@ class User < ActiveRecord::Base
   before_save :use_org_claim_code
 
   def use_org_claim_code
-    claim = OrgClaimCode.find_by code: self.org_claim_code
-    self.orgs << claim.org if claim
-    # if we couldnt find the claim we can still create the user
+    if defined? self.org_claim_code
+      claim = OrgClaimCode.find_by code: self.org_claim_code
+      self.orgs << claim.org if claim
+      # if we couldnt find the claim we can still create the user
+    end
   end
 
   def add_org_claim_code

@@ -23,13 +23,13 @@ ActiveRecord::Schema.define(version: 20170524020057) do
     t.datetime "updated_at"
   end
 
-  create_table "group_user", force: :cascade do |t|
+  create_table "group_users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer  "org_id"
+    t.integer  "user_id"
     t.integer  "group_id"
-    t.index ["group_id"], name: "index_group_user_on_group_id"
-    t.index ["org_id"], name: "index_group_user_on_org_id"
+    t.index ["group_id"], name: "index_group_users_on_group_id"
+    t.index ["user_id"], name: "index_group_users_on_user_id"
   end
 
   create_table "groups", force: :cascade do |t|

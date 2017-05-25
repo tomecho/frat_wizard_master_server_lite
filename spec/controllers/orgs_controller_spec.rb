@@ -55,6 +55,7 @@ RSpec.describe OrgsController, type: :controller do
 
   describe 'GET #new' do
     it 'assigns a new org as @org' do
+      skip('dont')
       get :new, {}, valid_session
       expect(assigns(:org)).to be_a_new(Org)
     end
