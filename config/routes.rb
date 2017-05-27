@@ -8,5 +8,5 @@ Rails.application.routes.draw do
   get '/user/:id/location', to: 'user#location'
   resources :user, except: %i(delete create)
 
-  resources :orgs
+  resources :orgs, except: %i(new edit)
 end
