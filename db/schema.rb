@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170524020057) do
+ActiveRecord::Schema.define(version: 20170531015523) do
 
   create_table "addresses", force: :cascade do |t|
     t.string   "street"
@@ -21,6 +21,15 @@ ActiveRecord::Schema.define(version: 20170524020057) do
     t.string   "country"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "group_permissions", force: :cascade do |t|
+    t.integer  "group_id"
+    t.integer  "permission_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["group_id"], name: "index_group_permissions_on_group_id"
+    t.index ["permission_id"], name: "index_group_permissions_on_permission_id"
   end
 
   create_table "group_users", force: :cascade do |t|
@@ -68,6 +77,13 @@ ActiveRecord::Schema.define(version: 20170524020057) do
 
   create_table "orgs", force: :cascade do |t|
     t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "permissions", force: :cascade do |t|
+    t.string   "controller"
+    t.string   "action"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
