@@ -10,6 +10,11 @@ RSpec.describe :permission, type: :model do
     expect(build(:permission, action: nil)).not_to be_valid
   end
 
+  it 'has special perms' do
+    Permission.update_permissions_table
+    expect(Permission.find_by controller: '*', action: '*').to be_a(Permission)
+  end
+
   describe '#name' do
     it 'returns a human readable string of the permission' do
       p = create(:permission)

@@ -47,6 +47,7 @@ class Permission < ActiveRecord::Base
   end
 
   def self.create_new_permissions
+    binding.pry
     # Create a new full access permission for all controller actions that do not have one
     ApplicationController.descendants.each do |controller| # get all children and grand children
       get_actions(controller).each do |action|
