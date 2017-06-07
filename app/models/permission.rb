@@ -3,25 +3,24 @@ class Permission < ActiveRecord::Base
   has_many :group_permissions, dependent: :destroy
   has_many :groups, through: :group_permissions
 
+  validates :action, :controller, presence: true
   validates :action, :controller, uniqueness: true
 
-  def self.update_permissions_table
-    ActiveRecord::Base.transaction do
-      delete_outdated_permissions
-      create_new_permissions
-    end
-  end
-
   def name
-    name = "#{controller.humanize.titleize} - #{action.humanize.titleize}"
-    name += " - #{id_field}" if id_field
-    name
+    "#{controller.humanize.titleize} - #{action.humanize.titleize}"
   end
 
   def model
     return controller.classify.constantize
   rescue NameError
     return nil
+  end
+
+  def self.update_permissions_table
+    ActiveRecord::Base.transaction do
+      delete_outdated_permissions
+      create_new_permissions
+    end
   end
 
   def self.delete_outdated_permissions
@@ -39,7 +38,7 @@ class Permission < ActiveRecord::Base
       end
 
       # Destroy the permission if the action doesn't exist
-      action = ApplicationController.get_actions(controller).find { |a| a == permission.action.to_s }
+      action = get_actions(controller).find { |a| a == permission.action.to_s }
       if action.nil?
         permission.destroy!
         next
@@ -50,8 +49,8 @@ class Permission < ActiveRecord::Base
   def self.create_new_permissions
     # Create a new full access permission for all controller actions that do not have one
     ApplicationController.descendants.each do |controller| # get all children and grand children
-      ApplicationController.get_actions(controller).each do |action|
-        Permission.find_or_create_by(controller: controller.name.gsub!('Controller', '').underscore, action: action, id_field: nil)
+      get_actions(controller).each do |action|
+        Permission.find_or_create_by(controller: controller.name.gsub!('Controller', '').underscore, action: action)
       end
     end
 
@@ -59,5 +58,12 @@ class Permission < ActiveRecord::Base
     SPECIAL_PERMS.each do |p|
       Permission.where(p).first_or_create
     end
+  end
+
+  private
+
+  # method for perms generation
+  def self.get_actions(controller)
+    controller.instance_methods(false).map(&:to_s) & controller.action_methods.to_a
   end
 end
