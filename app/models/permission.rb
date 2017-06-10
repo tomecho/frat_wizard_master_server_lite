@@ -4,7 +4,7 @@ class Permission < ActiveRecord::Base
   has_many :groups, through: :group_permissions
 
   validates :action, :controller, presence: true
-  validates :action, :controller, uniqueness: true
+  validates :action, uniqueness: { scope: :controller }
 
   def name
     "#{controller.humanize.titleize} - #{action.humanize.titleize}"
@@ -47,7 +47,6 @@ class Permission < ActiveRecord::Base
   end
 
   def self.create_new_permissions
-    binding.pry
     # Create a new full access permission for all controller actions that do not have one
     ApplicationController.descendants.each do |controller| # get all children and grand children
       get_actions(controller).each do |action|
