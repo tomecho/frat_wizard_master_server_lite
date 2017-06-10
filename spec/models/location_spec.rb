@@ -38,6 +38,7 @@ RSpec.describe Location, type: :model do
   it 'properly gets latest of each location for user' do
     u1 = create :user
     u2 = create :user
+    binding.pry
     create(:location, user: u1)
     u1_latest = create(:location, user: u1)
     create(:location, user: u2)
