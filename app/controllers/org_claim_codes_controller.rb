@@ -3,7 +3,6 @@ class OrgClaimCodesController < ApplicationController
 
   # given a claim code show the org
   def show
-    
   end
 
   # create new claim code based on org_id
@@ -24,7 +23,6 @@ class OrgClaimCodesController < ApplicationController
 
   # remove claim code by its id
   def destroy
-
   end
 
   private

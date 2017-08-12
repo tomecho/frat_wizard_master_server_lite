@@ -1,5 +1,5 @@
 class UserController < ApplicationController
-  before_action :find_user, only: [:show, :update, :location]
+  before_action :find_user, except: %i(index)
 
   def index
     page = params[:page]
@@ -24,6 +24,11 @@ class UserController < ApplicationController
 
   def location
     render json: @user.latest_location
+  end
+
+  def use_org_claim_code
+    # that method returns which if any org was joined
+    render json: @user.use_org_claim_code(params.require(:org_claim_code))
   end
 
   private

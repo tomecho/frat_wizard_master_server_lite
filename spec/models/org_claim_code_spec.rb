@@ -5,17 +5,9 @@ RSpec.describe OrgClaimCode, type: :model do
     it 'has a valid factory' do
       expect(build(:org_claim_code)).to be_valid
     end
-  end
 
-  context 'using claim code' do
-    it 'uses a basic claim code' do
-      claim = create :org_claim_code
-      expect(create(:user, org_claim_code: claim.code)).to have_attributes orgs: [ claim.org ]
-    end
-
-    it 'wont add unless we use a valid claim' do
-      claim = create :org_claim_code
-      expect(create(:user, org_claim_code: 'XXX')).not_to have_attributes orgs: [ claim.org ]
+    it 'creates a claim code' do
+      expect(create(:org_claim_code).code).to be_present
     end
   end
 end
