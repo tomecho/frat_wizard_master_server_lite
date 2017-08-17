@@ -44,6 +44,17 @@ RSpec.describe User, type: :model do
         expect(user.latest_location).to eq(latest)
       end
     end
+
+    context 'helps with permissions' do
+      it 'positivly verifies perms' do
+        u = create :user, groups: [ create(:group, permissions: [create(:permission, controller: 'fake', action: 'for_test')])]
+        expect(u.has_permission?('fake', 'for_test')).to be true
+      end
+      it 'negativly verifies perms' do
+        u = create :user, groups: [ create(:group, permissions: [create(:permission, controller: 'fake', action: 'for_test')])]
+        expect(u.has_permission?('dont', 'have')).to be false
+      end
+    end
   end
 
   it 'has implicit children' do

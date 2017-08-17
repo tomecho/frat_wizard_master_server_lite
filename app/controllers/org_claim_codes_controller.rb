@@ -8,9 +8,9 @@ class OrgClaimCodesController < ApplicationController
   # create new claim code based on org_id
   def create
     # we already know this user has permission for org_claim_codes#create but we need to check they are part of this org
-    unless @current_user.orgs.map(&:id).include? new_org_claim_code_params[:id] or
+    unless @current_user.orgs.map(&:id).include? new_org_claim_code_params[:org_id].to_i or
         @current_user.has_permission?('*', '*')
-      render json: nil, status: :forbidden
+      head :forbidden and return
     end
 
     claim = OrgClaimCode.new(new_org_claim_code_params)

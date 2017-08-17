@@ -9,4 +9,5 @@ Rails.application.routes.draw do
   resources :user, except: %i(delete create)
 
   resources :orgs, except: %i(new edit)
+  resources :org_claim_codes, only: %i(show create destroy)
 end

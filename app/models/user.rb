@@ -26,15 +26,15 @@ class User < ActiveRecord::Base
 
   def has_permission?(controller, action)
     # Get a list of permissions associated with this controller and action
-    relevant_permissions = GroupsUser.where(user_id: self.id, active: true).map do |x|
-      x.group.permissions.where(active: true, controller: controller, action: action)
+    relevant_permissions = GroupUser.where(user_id: self.id).map do |x|
+      x.group.permissions.where(controller: controller, action: action)
     end.flatten
 
     # Deny if the list is empty, permit if list is populated
     return relevant_permissions.any?
   end
 
-  def is_super_user
+  def is_super_user?
     return has_permission?('*', '*')
   end
 end

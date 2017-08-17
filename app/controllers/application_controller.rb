@@ -10,9 +10,14 @@ class ApplicationController < ActionController::Base
 
   # sets @current_user before any other controler (execpt the public actions)
   def auth_user
+    # first check permission for the requested controller, action
+    unless @current_user.has_permission?(params[:controller], params[:action])
+      render json: nil, status: :forbidden && return
+    end
+
     if Rails.env.test?
       # test will force set @current_user
-      render(:head, status: :unauthorized) && return unless @current_user
+      render(json: nil, status: :unauthorized) && return unless @current_user
     else
       success = false
       authenticate_with_http_token do |token, _options|
@@ -21,11 +26,6 @@ class ApplicationController < ActionController::Base
 
       unless success && @current_user
         render json: nil, status: :unauthorized && return
-      end
-
-      # now check permission for the requested controller, action
-      unless @current_user.has_permission?(params[:controller], params[:action])
-        render json: nil, status: :forbidden && return
       end
     end
   end
