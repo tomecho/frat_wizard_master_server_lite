@@ -71,7 +71,7 @@ RSpec.describe OrgClaimCodesController, type: :controller do
       skip('not yet implemented')
       org = create(:org_claim_code, org: create(:org, name: 'fratty frat bros'))
       get :show, params: { org_claim_code: org }
-      expect(response).to have_attributes(org_name: 'fratty frat bros')
+      expect(JSON.parse(response)).to have_attributes(org_name: 'fratty frat bros')
     end
   end
 

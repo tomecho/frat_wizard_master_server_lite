@@ -55,6 +55,23 @@ RSpec.describe User, type: :model do
         expect(u.has_permission?('dont', 'have')).to be false
       end
     end
+
+    context 'org claim codes' do
+      it 'joins an org with a valid claim code' do
+        org = create :org
+        claim = create :org_claim_code, org: org
+        u = create(:user)
+        u.use_org_claim_code(claim.code)
+        expect(u.reload.orgs).to include org
+      end
+
+      it 'doesnt join an org given a fake code' do
+        u = create :user
+        expect do
+          u.use_org_claim_code('fake code')
+        end.to change(u.orgs,:count).by(0)
+      end
+    end
   end
 
   it 'has implicit children' do
