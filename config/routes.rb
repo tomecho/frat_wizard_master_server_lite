@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :location, except: %i(update)
 
   get '/user/:id/location', to: 'user#location'
+  post '/user/use_org_claim_code', to: 'user#use_org_claim_code'
   resources :user, except: %i(delete create)
 
   resources :orgs, except: %i(new edit)

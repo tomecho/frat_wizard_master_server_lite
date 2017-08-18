@@ -28,7 +28,12 @@ class UserController < ApplicationController
 
   def use_org_claim_code
     # this method returns which if any org was joined
-    render json: @user.use_org_claim_code(params.require(:org_claim_code))
+    org = @user.use_org_claim_code(params.require(:org_claim_code))
+    if org
+      render json: org
+    else
+      head status: 422
+    end
   end
 
   private

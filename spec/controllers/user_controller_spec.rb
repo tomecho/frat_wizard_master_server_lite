@@ -48,4 +48,25 @@ RSpec.describe UserController, type: :controller do
       expect(JSON.parse(response.body)).to eq(JSON.parse(u1.to_json))
     end
   end
+
+  context 'POST #use_org_claim_code' do
+    it 'uses the code to join an org' do
+      u1
+      claim = create :org_claim_code
+      expect do
+        post :use_org_claim_code, params: { id: u1.id, org_claim_code: claim.code }
+      end.to change(u1.orgs,:count).by(1)
+      expect(u1.orgs.last).to eq claim.org
+      expect(response).to have_http_status :ok
+      expect(response.body).to eq(claim.org.to_json)
+    end
+
+    it 'wont join an org using a fake code' do
+      u1
+      expect do
+        post :use_org_claim_code, params: { id: u1.id, org_claim_code: 'fake' }
+      end.to change(u1.orgs,:count).by(0)
+      expect(response).to have_http_status 422
+    end
+  end
 end
