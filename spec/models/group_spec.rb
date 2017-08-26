@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Group, type: :model do
   let(:group) { create :group }
+  let(:org) { create :org }
 
   it 'has a valid factory' do
     expect(group).to be_valid
@@ -15,17 +16,29 @@ RSpec.describe Group, type: :model do
   end
 
   context 'validations' do
-    context 'enforcing uniqueness on name and desc within same org id' do
-      it 'does it for name' do
-        org = create :org
-        create :group, name: 'test', org: org
-        expect { create :group, name: 'test', org: org }.to raise_error ActiveRecord::RecordInvalid, /Name has already been taken/
+    context 'enforcing uniqueness on name and desc' do
+      context 'will prevent within same org id' do
+        it 'does it for name' do
+          create :group, name: 'test', org: org
+          expect { create :group, name: 'test', org: org }.to raise_error ActiveRecord::RecordInvalid, /Name has already been taken/
+        end
+
+        it 'does it for desc' do
+          create :group, description: 'test', org: org
+          expect { create :group, description: 'test', org: org }.to raise_error ActiveRecord::RecordInvalid, /Description has already been taken/
+        end
       end
 
-      it 'does it for desc' do
-        org = create :org
-        create :group, description: 'test', org: org
-        expect { create :group, description: 'test', org: org }.to raise_error ActiveRecord::RecordInvalid, /Description has already been taken/
+      context 'will allow on different org id' do
+        it 'does it for name' do
+          create :group, name: 'test', org: org
+          expect { create :group, name: 'test', org: create(:org) }.not_to raise_error
+        end
+
+        it 'does it for desc' do
+          create :group, description: 'test', org: org
+          expect { create :group, description: 'test', org: create(:org) }.not_to raise_error
+        end
       end
     end
   end
