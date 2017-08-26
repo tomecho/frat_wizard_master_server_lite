@@ -2,63 +2,63 @@ class GroupsController < ApplicationController
   before_action :set_group, only: [:show, :edit, :update, :destroy]
 
   # GET /groups
-  # GET /groups.json
   def index
-    @groups = Group.all
+    render json: Group.all
   end
 
   # GET /groups/1
-  # GET /groups/1.json
   def show
-  end
-
-  # GET /groups/new
-  def new
-    @group = Group.new
-  end
-
-  # GET /groups/1/edit
-  def edit
+    render json: @group
   end
 
   # POST /groups
-  # POST /groups.json
   def create
-    @group = Group.new(group_params)
+    group = Group.new(group_params)
 
-    respond_to do |format|
-      if @group.save
-        format.html { redirect_to @group, notice: 'Group was successfully created.' }
-        format.json { render :show, status: :created, location: @group }
-      else
-        format.html { render :new }
-        format.json { render json: @group.errors, status: :unprocessable_entity }
-      end
+    if group.save
+      render json: group, status: :created
+    else
+      render json: group.errors, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /groups/1
-  # PATCH/PUT /groups/1.json
   def update
-    respond_to do |format|
-      if @group.update(group_params)
-        format.html { redirect_to @group, notice: 'Group was successfully updated.' }
-        format.json { render :show, status: :ok, location: @group }
-      else
-        format.html { render :edit }
-        format.json { render json: @group.errors, status: :unprocessable_entity }
-      end
+    if @group.update(group_params)
+      render json: @group
+    else
+      render json: @group.errors, status: :unprocessable_entity
     end
   end
 
   # DELETE /groups/1
-  # DELETE /groups/1.json
   def destroy
     @group.destroy
-    respond_to do |format|
-      format.html { redirect_to groups_url, notice: 'Group was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    render json: @group
+  end
+
+  def remove_permission
+    permission = @group.permissions.find params[:permission_id]
+    permission.update(active: false)
+    redirect_to edit_group_path(@group)
+  end
+
+  def add_permission
+    #permission = @group.permissions.find params[:permission_id]
+    #permission.update(active: true)
+    #redirect_to edit_group_path(@group)
+  end
+
+  def remove_user
+    user = @group.groups_users.find_by user_id: params[:user_id]
+    user.update(active: false)
+    redirect_to edit_group_path(@group)
+  end
+
+  def add_user
+    #user = @group.groups_users.find_by user_id: params[:user_id]
+    #user.update(active: true)
+    #redirect_to edit_group_path(@group)
   end
 
   private
