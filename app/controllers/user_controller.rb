@@ -32,7 +32,7 @@ class UserController < ApplicationController
     if org
       render json: org
     else
-      head status: 422
+      head 422
     end
   end
 
