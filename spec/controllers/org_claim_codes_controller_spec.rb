@@ -63,6 +63,10 @@ RSpec.describe OrgClaimCodesController, type: :controller do
         expect(json["code"]).to be_present
         expect(json["org_id"]).to be_present
       end
+      it 'can recover from errors' do
+        skip('find way to test this')
+        expect(response).to have_http_status 422
+      end
     end
   end
 
