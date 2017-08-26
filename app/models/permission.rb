@@ -60,10 +60,8 @@ class Permission < ActiveRecord::Base
     end
   end
 
-  private
-
   # method for perms generation
-  def self.get_actions(controller)
+  private_class_method def self.get_actions(controller)
     controller.instance_methods(false).map(&:to_s) & controller.action_methods.to_a
   end
 end
