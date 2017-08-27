@@ -1,5 +1,5 @@
 class GroupsController < ApplicationController
-  before_action :set_group, only: [:show, :edit, :update, :destroy]
+  before_action :set_group, except: %i(index create)
 
   # GET /groups
   def index
@@ -38,27 +38,44 @@ class GroupsController < ApplicationController
   end
 
   def remove_permission
-    permission = @group.permissions.find params[:permission_id]
-    permission.update(active: false)
-    redirect_to edit_group_path(@group)
+    perm_to_remove = @group.permissions.find_by_id params[:permission_id]
+    if perm_to_remove
+      # that shouldnt ever fail
+      @group.permissions.destroy perm_to_remove
+      render json: @group.permissions
+    else
+      render json: { errors: ['perm not found in group']}, status: :unprocessable_entity
+    end
   end
 
   def add_permission
-    #permission = @group.permissions.find params[:permission_id]
-    #permission.update(active: true)
-    #redirect_to edit_group_path(@group)
+    perm_to_add = Permission.find_by_id params[:permission_id]
+    if perm_to_add
+      @group.permissions << perm_to_add
+      render json: perm_to_add
+    else
+      render json: { errors: ['perm not found by id'] }, status: :unprocessable_entity
+    end
   end
 
   def remove_user
-    user = @group.groups_users.find_by user_id: params[:user_id]
-    user.update(active: false)
-    redirect_to edit_group_path(@group)
+    user_to_remove = @group.user.find_by_id params[:user_id]
+    if user_to_remove
+      @group.users.destroy user_to_remove
+      render json: @group.users
+    else
+      render json: { errors: ['user not found in group']}, status: :unprocessable_entity
+    end
   end
 
   def add_user
-    #user = @group.groups_users.find_by user_id: params[:user_id]
-    #user.update(active: true)
-    #redirect_to edit_group_path(@group)
+    user_to_add = User.find_by_id params[:user_id]
+    if user_to_add
+      @group.user << user_to_add
+      render json: user_to_ad
+    else
+      render json: { errors: ['user not found by id'] }, status: :unprocessable_entity
+    end
   end
 
   private

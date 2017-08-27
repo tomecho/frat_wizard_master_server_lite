@@ -13,6 +13,10 @@ RSpec.configure do |config|
     Permission.update_permissions_table
   end
 
+  config.before(:each) do
+    current_user super_user
+  end
+
   config.shared_context_metadata_behavior = :apply_to_host_groups
 end
 

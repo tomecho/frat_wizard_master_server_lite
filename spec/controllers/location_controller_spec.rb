@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe LocationController, type: :controller do
-  before { current_user } # sets user
-
   it 'get #index' do
     u1 = create :user
     create :location, user: u1
