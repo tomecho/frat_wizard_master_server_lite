@@ -13,7 +13,8 @@ RSpec.configure do |config|
     Permission.update_permissions_table
   end
 
-  config.before(:each) do
+  # need to set a user so perms dont matter
+  config.before(:each, type: :controller) do
     current_user super_user
   end
 

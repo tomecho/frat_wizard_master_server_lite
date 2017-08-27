@@ -11,7 +11,6 @@ class ApplicationController < ActionController::Base
 
   # sets @current_user before any other controler (execpt the public actions)
   def auth_user
-    binding.pry
     if Rails.env.test?
       # test will force set @current_user
       render json: { errors: ['unauthorized'] }, status: :unauthorized and return unless @current_user
