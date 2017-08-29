@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe UserController, type: :controller do
-  before { current_user } # sets user
-
   let(:u1) { create :user }
   let(:u2) { create :user }
   let!(:lots_of_users) { create_list :user, 5 }

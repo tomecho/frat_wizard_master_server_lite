@@ -1,13 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe OrgClaimCodesController, type: :controller do
-  before { current_user }
+  let(:org) { create(:org) }
 
   describe '#create' do
     context 'permissions' do
       it 'allows users from the same org with permission to create a code' do
-        org = create :org
-
         current_user(
           create(:user, orgs: [org], groups: [
             create(:group, permissions: [
@@ -16,6 +14,13 @@ RSpec.describe OrgClaimCodesController, type: :controller do
           ])
         )
 
+        expect do
+          post :create, params: { org_claim_codes: { org_id: org.id } }
+        end.to change(OrgClaimCode, :count).by(1)
+      end
+
+      it 'does allow if they are a super user' do
+        current_user(super_user) # that guy has all the perms
         expect do
           post :create, params: { org_claim_codes: { org_id: org.id } }
         end.to change(OrgClaimCode, :count).by(1)
@@ -36,7 +41,7 @@ RSpec.describe OrgClaimCodesController, type: :controller do
       end
 
       it 'does not allow a user without permission weather or not they are in the org' do
-        # already has unpriveleged user set
+        current_user
         expect do
           post :create, params: { org_claim_codes: { org_id: create(:org).id } } # a different org than we set perms for
         end.to change(OrgClaimCode, :count).by(0)
@@ -47,8 +52,6 @@ RSpec.describe OrgClaimCodesController, type: :controller do
 
     context 'response' do
       it 'returns the object to requester' do
-        org = create :org
-
         current_user(
           create(:user, orgs: [org], groups: [
             create(:group, permissions: [

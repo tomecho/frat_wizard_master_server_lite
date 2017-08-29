@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe OrgsController, type: :controller do
-  before { current_user }
   let(:org) { create :org }
   let(:valid_attributes) { attributes_for :org }
 
