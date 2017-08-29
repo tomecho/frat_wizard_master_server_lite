@@ -9,7 +9,7 @@ RSpec.describe OrgClaimCodesController, type: :controller do
         current_user(
           create(:user, orgs: [org], groups: [
             create(:group, permissions: [
-              create(:permission, controller: OrgClaimCode.name, action: 'create')
+              Permission.find_by(controller: 'org_claim_codes', action: 'create')
             ])
           ])
         )
@@ -30,7 +30,7 @@ RSpec.describe OrgClaimCodesController, type: :controller do
         current_user(
           create(:user, orgs: [create(:org)], groups: [
             create(:group, permissions: [
-              create(:permission, controller: OrgClaimCode.name, action: 'create')
+              Permission.find_by(controller: 'org_claim_codes', action: 'create')
             ])
           ])
         )
@@ -38,6 +38,8 @@ RSpec.describe OrgClaimCodesController, type: :controller do
         expect do
           post :create, params: { org_claim_codes: { org_id: create(:org).id } } # a different org than we set perms for
         end.to change(OrgClaimCode, :count).by(0)
+
+        expect(response).to have_http_status(:forbidden) # from application controller check permission
       end
 
       it 'does not allow a user without permission weather or not they are in the org' do
@@ -46,7 +48,7 @@ RSpec.describe OrgClaimCodesController, type: :controller do
           post :create, params: { org_claim_codes: { org_id: create(:org).id } } # a different org than we set perms for
         end.to change(OrgClaimCode, :count).by(0)
 
-        expect(response).to have_http_status(:forbidden)
+        expect(response).to have_http_status(:unauthorized)
       end
     end
 
@@ -55,7 +57,7 @@ RSpec.describe OrgClaimCodesController, type: :controller do
         current_user(
           create(:user, orgs: [org], groups: [
             create(:group, permissions: [
-              create(:permission, controller: OrgClaimCode.name, action: 'create')
+              Permission.find_by(controller: 'org_claim_codes', action: 'create')
             ])
           ])
         )
