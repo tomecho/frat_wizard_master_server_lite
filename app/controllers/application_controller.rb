@@ -31,9 +31,9 @@ class ApplicationController < ActionController::Base
   end
 
   def check_permission
-     unless @current_user.has_permission?(params[:controller], params[:action])
-        render json: { errors: ['user does not have permissions'] }, status: :unauthorized && return
-     end
+    unless @current_user && @current_user.has_permission?(params[:controller], params[:action])
+      render json: { errors: ['user does not have permissions'] }, status: :unauthorized && return
+    end
   end
 
   # verify token and attempt to find user, if doesnt exist, create one
