@@ -2,18 +2,14 @@
 require 'rails_helper'
 
 describe GroupsController do
-  before { skip('nyet') }
   let!(:group) { create(:group) }
   let!(:group2) { create(:group) }
 
   describe 'GET #index' do
     it 'populates an array of groups' do
+      create_list :group ,5
       get :index
-      expect(assigns[:groups]).to eq([group, group2])
-    end
-    it 'renders the :index view' do
-      get :index
-      expect(response).to render_template :index
+      expect(response.body).to eq(Group.all.to_json)
     end
   end
 
@@ -21,10 +17,6 @@ describe GroupsController do
     it 'assigns the requested group to @group' do
       get :show, params: { id: group }
       expect(assigns[:group]).to eq(group)
-    end
-    it 'renders the :show template' do
-      get :show, params: { id: group }
-      expect(response).to render_template :show
     end
   end
 

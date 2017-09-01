@@ -14,7 +14,7 @@ describe ApplicationHelper do
       fb_response = instance_double('response', code: '500', body: '')
 
       allow(Net::HTTP).to receive(:get_response) {fb_response}
-      expect(get_facebook_profile_by_token('fake token', ['email'])).to be false
+      expect(get_facebook_profile_by_token('fake token', ['email'])).to be_falsey
     end
   end
 end
