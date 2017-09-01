@@ -5,6 +5,8 @@ describe GroupsController do
   let!(:group) { create(:group) }
   let!(:group2) { create(:group) }
 
+  let(:group_attr) { attributes_for(:group).merge(org_id: create(:org).id) }
+
   describe 'GET #index' do
     it 'populates an array of groups' do
       create_list :group ,5
@@ -24,7 +26,7 @@ describe GroupsController do
     context 'with valid attributes' do
       it 'saves the new group in the database' do
         expect do
-          post :create, params: { group: attributes_for(:group) }
+          post :create, params: { group: group_attr }
         end.to change(Group, :count).by(1)
       end
       it 'attaches the group to users and permissions' do
@@ -33,21 +35,13 @@ describe GroupsController do
         expect(Group.last.users.to_ary).to eq(attributes[:user_ids])
         expect(Group.last.permissions.to_ary).to eq(attributes[:permission_ids])
       end
-      it 'redirects to the group page' do
-        post :create, params: { group: attributes_for(:group) }
-        expect(response).to redirect_to Group.last
-      end
     end
 
     context 'with invalid attributes' do
       it 'does not save the new contact in the database' do
         expect do
-          post :create, params: { group: attributes_for(:invalid_group) }
+          post :create, params: { group: {} }
         end.to_not change(Group, :count)
-      end
-      it 're-renders the :new template' do
-        post :create, params: { group: attributes_for(:invalid_group) }
-        expect(response).to render_template :new
       end
     end
   end
@@ -65,11 +59,6 @@ describe GroupsController do
         post :create, params: { group: attributes }
         expect(Group.last.users.to_ary).to eq(attributes[:user_ids])
         expect(Group.last.permissions.to_ary).to eq(attributes[:permission_ids])
-      end
-      it 'redirects to the group page' do
-        new_name = group.name + 'new'
-        post :update, params: { id: group, group: { name: new_name } }
-        expect(response).to redirect_to group
       end
     end
 
@@ -89,36 +78,14 @@ describe GroupsController do
 
   describe 'POST #destroy' do
     it 'deletes the group from the database' do
+      group
       expect do
         delete :destroy, params: { id: group }
       end.to change(Group, :count).by(-1)
     end
-
-    it 'redirects to the groups index page' do
-      delete :destroy, params: { id: group }
-      expect(response).to redirect_to groups_url
-    end
   end
 
-  describe 'POST #update_permission' do
-    it 'removes the old permission and appends the new permission to the group' do
-      old_permission = create(:permission)
-      group.permissions << old_permission
-
-      new_permission = create(:permission, controller: old_permission.controller, action: old_permission.action, id_field: "#{old_permission.id_field}new")
-      new_attributes = new_permission.attributes
-      new_attributes[:old_id_field] = old_permission.id_field
-
-      post :update_permission, params: { id: group, permission: new_attributes }
-
-      group.reload
-      expect(group.permissions).not_to include(old_permission)
-      expect(group.permissions).to include(new_permission)
-      expect(response).to redirect_to edit_group_url(group)
-    end
-  end
-
-  describe 'POST #remove_permission' do
+  describe 'DELETE #remove_permission' do
     it 'disables the permission from the group' do
       old_permission = create(:permission)
       group.permissions << old_permission
@@ -138,7 +105,7 @@ describe GroupsController do
     end
   end
 
-  describe 'POST #enable_permission' do
+  describe 'POST #create_permission' do
     it 'enables the permission in the group' do
       old_permission = create(:permission, active: false)
       group.permissions << old_permission
@@ -152,7 +119,7 @@ describe GroupsController do
     end
   end
 
-  describe 'POST #remove_user' do
+  describe 'DELETE #remove_user' do
     it 'removes the user in the group' do
       old_user = create(:user)
       group.users << old_user

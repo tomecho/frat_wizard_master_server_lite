@@ -40,7 +40,7 @@ class GroupsController < ApplicationController
   def remove_permission
     perm_to_remove = @group.permissions.find_by_id params[:permission_id]
     if perm_to_remove
-      # that shouldnt ever fail
+      # this shouldnt ever fail
       @group.permissions.destroy perm_to_remove
       render json: @group.permissions
     else
@@ -86,6 +86,6 @@ class GroupsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def group_params
-      params.require(:group).permit(:org_id, :name, :description)
+      params.require(:group).permit(:org_id, :name, :description, :permission_ids, :user_ids)
     end
 end
