@@ -9,6 +9,15 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
   end
 
+  config.before :suite do
+    Permission.update_permissions_table
+  end
+
+  # need to set a user so perms dont matter
+  config.before(:each, type: :controller) do
+    current_user super_user
+  end
+
   config.shared_context_metadata_behavior = :apply_to_host_groups
 end
 
@@ -19,4 +28,8 @@ def current_user(user = nil)
                     create(:user)
                   end
   controller.instance_variable_set('@current_user', @current_user)
+end
+
+def super_user
+  create(:user, groups: [create(:group, permissions: Permission.all)])
 end

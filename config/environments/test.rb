@@ -39,4 +39,7 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  # automatically migrate test db when running tests
+  config.active_record.maintain_test_schema = false
 end
