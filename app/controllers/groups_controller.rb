@@ -59,7 +59,7 @@ class GroupsController < ApplicationController
   end
 
   def remove_user
-    user_to_remove = @group.user.find_by_id params[:user_id]
+    user_to_remove = @group.users.find_by_id params[:user_id]
     if user_to_remove
       @group.users.destroy user_to_remove
       render json: @group.users
@@ -71,8 +71,8 @@ class GroupsController < ApplicationController
   def add_user
     user_to_add = User.find_by_id params[:user_id]
     if user_to_add
-      @group.user << user_to_add
-      render json: user_to_ad
+      @group.users << user_to_add
+      render json: user_to_add
     else
       render json: { errors: ['user not found by id'] }, status: :unprocessable_entity
     end
@@ -86,6 +86,6 @@ class GroupsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def group_params
-      params.require(:group).permit(:org_id, :name, :description, :permission_ids, :user_ids)
+      params.require(:group).permit(:org_id, :name, :description, permission_ids: [], user_ids: [])
     end
 end

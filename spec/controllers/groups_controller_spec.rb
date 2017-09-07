@@ -6,12 +6,14 @@ describe GroupsController do
   let!(:group2) { create(:group) }
 
   let(:group_attr) { attributes_for(:group).merge(org_id: create(:org).id) }
+  let(:group_with_users_and_perms) {attributes_for(:group).merge(org_id: create(:org).id, user_ids: create_list(:user, 5).map(&:id),
+                                                                 permission_ids: create_list(:permission,5).map(&:id))}
 
   describe 'GET #index' do
     it 'populates an array of groups' do
-      create_list :group ,5
+      create_list :group, 5 # add a few more groups
       get :index
-      expect(response.body).to eq(Group.all.to_json)
+      expect(response.body).to eq(Group.all.to_json) # will list all groups
     end
   end
 
@@ -30,17 +32,16 @@ describe GroupsController do
         end.to change(Group, :count).by(1)
       end
       it 'attaches the group to users and permissions' do
-        attributes = attributes_for(:group_with_users_and_permissions)
-        post :create, params: { group: attributes }
-        expect(Group.last.users.to_ary).to eq(attributes[:user_ids])
-        expect(Group.last.permissions.to_ary).to eq(attributes[:permission_ids])
+        post :create, params: { group: group_with_users_and_perms}
+        expect(Group.last.users.map(&:id)).to eq(group_with_users_and_perms[:user_ids])
+        expect(Group.last.permissions.map(&:id)).to eq(group_with_users_and_perms[:permission_ids])
       end
     end
 
     context 'with invalid attributes' do
       it 'does not save the new contact in the database' do
         expect do
-          post :create, params: { group: {} }
+          post :create, params: { group: { invalid: 'attr' } }
         end.to_not change(Group, :count)
       end
     end
@@ -55,23 +56,18 @@ describe GroupsController do
         expect(group.name).to eq(new_name)
       end
       it 'updates the groups attached users and permissions' do
-        attributes = attributes_for(:group_with_users_and_permissions)
-        post :create, params: { group: attributes }
-        expect(Group.last.users.to_ary).to eq(attributes[:user_ids])
-        expect(Group.last.permissions.to_ary).to eq(attributes[:permission_ids])
+        post :create, params: { group: group_with_users_and_perms }
+        expect(Group.last.users.map(&:id)).to eq(group_with_users_and_perms[:user_ids])
+        expect(Group.last.permissions.map(&:id)).to eq(group_with_users_and_perms[:permission_ids])
       end
     end
 
     context 'with invalid attributes' do
       it 'does not save the contact in the database' do
         old_name = group.name
-        post :update, params: { id: group, group: attributes_for(:invalid_group) }
+        post :update, params: { id: group, group: {random: 'param'} }
         group.reload
         expect(group.name).to eq(old_name)
-      end
-      it 're-renders the :edit template' do
-        post :update, params: { id: group, group: attributes_for(:invalid_group) }
-        expect(response).to render_template :edit
       end
     end
   end
@@ -86,36 +82,35 @@ describe GroupsController do
   end
 
   describe 'DELETE #remove_permission' do
-    it 'disables the permission from the group' do
+    it 'removes the permission from the group' do
       old_permission = create(:permission)
       group.permissions << old_permission
       user = create(:user)
       group.users << user
-      expect(user).to have_permission old_permission.controller, old_permission.action, nil # should have permission to begin with
+      expect(user).to have_permission old_permission.controller, old_permission.action # should have permission to begin with
 
-      post :remove_permission, params: { id: group, permission_id: old_permission }
+      delete :remove_permission, params: { id: group.id, permission_id: old_permission.id }
 
       group.reload
-      expect(group.permissions).to include(old_permission) # groups still has permission
-      expect(group.permissions.find(old_permission.id).active).to be false # but it isnt active
-      expect(user.reload.active).to be true # user is still active
-      expect(group.groups_users.find_by(user_id: user.id).active).to be true
-      expect(user).not_to have_permission old_permission.controller, old_permission.action, nil # but doesnt have permission now
-      expect(response).to redirect_to edit_group_url(group)
+      expect(group.permissions).not_to include(old_permission) # groups wont have permission
+      user.reload
+      expect(group.group_users.find_by(user_id: user.id)).to be_present # still in group
+      expect(user).not_to have_permission old_permission.controller, old_permission.action # but doesnt have permission now
     end
   end
 
   describe 'POST #create_permission' do
-    it 'enables the permission in the group' do
-      old_permission = create(:permission, active: false)
-      group.permissions << old_permission
+    it 'creates the permission in the group' do
+      permission = create(:permission)
 
-      post :enable_permission, params: { id: group, permission_id: old_permission }
+      expect(group.permissions).not_to include(permission)
+
+      post :add_permission, params: { id: group.id, permission_id: permission.id }
 
       group.reload
-      expect(group.permissions).to include(old_permission)
-      expect(group.permissions.find(old_permission.id).active).to be true
-      expect(response).to redirect_to edit_group_url(group)
+      expect(group.permissions).to include(permission)
+      user = create(:user, groups: [group])
+      expect(user).to have_permission permission.controller, permission.action
     end
   end
 
@@ -124,47 +119,39 @@ describe GroupsController do
       old_user = create(:user)
       group.users << old_user
 
-      post :remove_user, params: { id: group, user_id: old_user }
+      expect(group.users).to include(old_user)
+
+      post :remove_user, params: { id: group.id, user_id: old_user.id }
 
       group.reload
-      expect(group.groups_users.map(&:user_id)).to include(old_user.id) # we dont delete users!
-      expect(old_user.reload.active).to be true
-      expect(group.groups_users.find_by(user_id: old_user.id).active).to be false
-      expect(response).to redirect_to edit_group_url(group)
+      expect(group.users).not_to include(old_user)
     end
 
-    it 'denies permissions after inactive' do
-      permission = create(:permission, controller: 'user', action: 'show', id_field: nil)
-      permission2 = create(:permission, controller: 'user', action: 'index', id_field: nil)
+    it 'denies permissions after removed' do
+      permission = create(:permission, controller: 'fake controller', action: 'show' )
+      permission2 = create(:permission, controller: 'fake controller', action: 'index')
 
       group.permissions << permission
       group2.permissions << permission2
       user = create(:user)
       user.groups << group
       user.groups << group2
-      expect(user).to have_permission permission.controller, permission.action, nil
-      post :remove_user, params: { id: group, user_id: user }
-      expect(user.reload.active).to be true # user itself is active
-      expect(group.groups_users.find_by(user_id: user.id).active).to be false
-      expect(user).not_to have_permission permission.controller, permission.action, nil
+      expect(user).to have_permission permission.controller, permission.action
+      post :remove_user, params: { id: group.id, user_id: user.id }
+      expect(user).not_to have_permission permission.controller, permission.action
     end
   end
 
-  describe 'POST #enable_user' do
-    it 'enables the user in the group' do
+  describe 'POST #add_user' do
+    it 'adds the user to the group' do
       user = create(:user)
-      group.users << user
-      gu = group.groups_users.find_by(user_id: user.id)
-      gu.active = false
-      gu.save
-      expect(user.active).to be true
-      post :enable_user, params: { id: group, user_id: user }
+
+      expect(group.users).not_to include user
+
+      post :add_user, params: { id: group.id, user_id: user.id }
 
       group.reload
       expect(group.users).to include(user)
-      expect(user.reload.active).to be true
-      expect(group.groups_users.find_by(user_id: user.id).active).to be true
-      expect(response).to redirect_to edit_group_url(group)
     end
   end
 end

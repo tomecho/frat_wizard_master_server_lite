@@ -11,9 +11,9 @@ Rails.application.routes.draw do
   resources :orgs, except: %i(new edit)
   resources :org_claim_codes, only: %i(show create destroy)
 
-  post '/group/:id/add_user', to: 'group#add_user'
-  delete '/group/:id/remove_user', to: 'group#remove_user'
-  post '/group/:id/add_permission', to: 'group#add_permission'
-  delete '/group/:id/remove_permission', to: 'group#remove_permission'
+  post '/groups/:id/add_user', to: 'groups#add_user'
+  delete '/groups/:id/remove_user', to: 'groups#remove_user'
+  post '/groups/:id/add_permission', to: 'groups#add_permission'
+  delete '/groups/:id/remove_permission', to: 'groups#remove_permission'
   resources :groups, except: %i(edit new)
 end
