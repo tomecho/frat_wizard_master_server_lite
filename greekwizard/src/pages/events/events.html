@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Events</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <button ion-item *ngFor="let event of events" (click)="itemTapped($event, item)">
+      <ion-icon [name]="logo-usd" item-left></ion-icon>
+      {{event.title}}
+      <div class="item-note" item-right>
+        {{event.date}}
+      </div>
+    </button>
+  </ion-list>
+</ion-content>

@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Greek Wizard</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <button ion-item *ngFor="let setting of settings">
+      {{setting.settingOption}}
+      <div class="item-note" item-right>
+        {{setting.status}}
+      </div>
+    </button>
+    <p>potential drop down menus and stuff for options?</p>
+    <p> Immediately assign positions? Include permissions option which allows executives unlimited access (we can make this feature customizable to allow custom permissions) </p>
+  </ion-list>
+  <!-- <button ion-button secondary menuToggle>Toggle Menu</button> -->
+</ion-content>
