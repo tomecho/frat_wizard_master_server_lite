@@ -68,4 +68,8 @@ class ApplicationController < ActionController::Base
     # above block will use token and return if they dont find one we get here
     render json: { errors: ['authorization token not supplied']}, status: 422 and return
   end
+
+  def home
+
+  end
 end
