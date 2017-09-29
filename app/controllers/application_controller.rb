@@ -6,8 +6,8 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper
 
   protect_from_forgery with: :null_session
-  before_action :auth_user, except: %i(verify_facebook_token)
-  before_action :check_permission, except: %i(verify_facebook_token)
+  before_action :auth_user, except: %i(verify_facebook_token home)
+  before_action :check_permission, except: %i(verify_facebook_token home)
 
   # sets @current_user before any other controler (execpt the public actions)
   def auth_user
@@ -70,6 +70,6 @@ class ApplicationController < ActionController::Base
   end
 
   def home
-
+    render 'home', template: 'home'
   end
 end
