@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper
 
   protect_from_forgery with: :null_session
-  before_action :auth_user, except: %i(verify_facebook_token home)
+  before_action :auth_user, except: %i(verify_facebook_token)
   before_action :check_permission, except: %i(verify_facebook_token home)
 
   # sets @current_user before any other controler (execpt the public actions)
@@ -17,17 +17,23 @@ class ApplicationController < ActionController::Base
         render json: { errors: ['unauthorized'] }, status: :unauthorized and return
       end
     else
-      profile = nil
-      authenticate_with_http_token do |token, _options|
-        profile = get_facebook_profile_by_token(token)
-      end
-      if profile
-        @current_user = User.find_by_email profile.try(:email)
-        unless @current_user
-          render json: { errors: ['could not set user given a valid facebook profile, account needs to be created'] }, status: :forbidden and return
+      # if its an api request (from mobile app)
+      if request.format.json? && !request.xhr?
+        profile = nil
+        authenticate_with_http_token do |token, _options|
+          profile = get_facebook_profile_by_token(token)
+        end
+        if profile
+          @current_user = User.find_by_email profile.try(:email)
+          unless @current_user
+            render json: { errors: ['could not set user given a valid facebook profile, account needs to be created'] }, status: :forbidden and return
+          end
+        else
+          render json: { errors: ['could not find facebook profile'] }, status: :unauthorized and return
         end
       else
-        render json: { errors: ['could not find facebook profile'] }, status: :unauthorized and return
+        # else its a request for our web based app
+
       end
     end
   end
