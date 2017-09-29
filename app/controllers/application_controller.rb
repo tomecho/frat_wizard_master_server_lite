@@ -32,8 +32,7 @@ class ApplicationController < ActionController::Base
           render json: { errors: ['could not find facebook profile'] }, status: :unauthorized and return
         end
       else
-        # else its a request for our web based app
-
+        # TODO else its a request for our web based app set user from session for force them to auth using omni auth
       end
     end
   end
