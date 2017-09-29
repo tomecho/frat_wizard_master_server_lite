@@ -44,6 +44,8 @@ GEM
     ast (2.3.0)
     autoprefixer-rails (6.7.4)
       execjs
+    bootstrap-daterangepicker-rails (0.1.5)
+      railties (>= 4.0, < 5.1)
     bootstrap-sass (3.3.7)
       autoprefixer-rails (>= 5.2.1)
       sass (>= 3.3.4)
@@ -56,6 +58,8 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    chart-js-rails (0.1.4)
+      railties (> 3.1)
     coderay (1.1.1)
     coffee-rails (4.1.1)
       coffee-script (>= 2.2.0)
@@ -76,7 +80,28 @@ GEM
     factory_girl_rails (4.8.0)
       factory_girl (~> 4.8.0)
       railties (>= 3.0.0)
+    fastclick-rails (1.0.1)
     ffi (1.9.18)
+    flot-rails (0.0.7)
+      jquery-rails
+    font-awesome-sass (4.7.0)
+      sass (>= 3.2)
+    gentelella-rails (0.1.8)
+      bootstrap-daterangepicker-rails
+      bootstrap-sass (~> 3.3.6)
+      chart-js-rails
+      fastclick-rails
+      flot-rails
+      font-awesome-sass (~> 4.7.0)
+      icheck-rails
+      jquery-rails
+      momentjs-rails
+      nprogress-rails
+      parsley-rails
+      railties (>= 4.0)
+      sass-rails (>= 5.0)
+      select2-rails
+      switchery-rails
     geocoder (1.4.4)
     geokit (1.11.0)
     geokit-rails (2.3.0)
@@ -85,6 +110,10 @@ GEM
     globalid (0.4.0)
       activesupport (>= 4.2.0)
     i18n (0.8.6)
+    icheck-rails (1.0.2.2)
+      jquery-rails
+      rails (>= 3.1.0)
+      sass-rails
     jbuilder (2.7.0)
       activesupport (>= 4.2.0)
       multi_json (>= 1.2)
@@ -104,12 +133,17 @@ GEM
     mini_mime (0.1.4)
     mini_portile2 (2.2.0)
     minitest (5.10.3)
+    momentjs-rails (2.17.1)
+      railties (>= 3.1)
     multi_json (1.12.1)
     nio4r (2.1.0)
     nokogiri (1.8.0)
       mini_portile2 (~> 2.2.0)
+    nprogress-rails (0.2.0.2)
     parser (2.4.0.0)
       ast (~> 2.2)
+    parsley-rails (2.7.0.0)
+      railties (>= 3.0.0)
     pg (0.21.0)
     powerpack (0.1.1)
     pry (0.10.4)
@@ -196,6 +230,8 @@ GEM
     sdoc (0.4.2)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
+    select2-rails (4.0.3)
+      thor (~> 0.14)
     simplecov (0.15.0)
       docile (~> 1.1.0)
       json (>= 1.8, < 3)
@@ -212,6 +248,8 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     sqlite3 (1.3.13)
+    switchery-rails (0.8.1.1)
+      railties (>= 3.2, < 6.0)
     thin (1.7.2)
       daemons (~> 1.0, >= 1.0.9)
       eventmachine (~> 1.0, >= 1.0.4)
@@ -243,6 +281,7 @@ DEPENDENCIES
   capybara
   coffee-rails (~> 4.1.0)
   factory_girl_rails (~> 4.0)
+  gentelella-rails
   geocoder
   geokit-rails
   jbuilder (~> 2.0)

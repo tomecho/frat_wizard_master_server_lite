@@ -20,6 +20,9 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
+# admin panel theme
+gem 'gentelella-rails'
+
 
 # helps determine if point is within radius of another
 gem 'geocoder'
