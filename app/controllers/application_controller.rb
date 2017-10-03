@@ -18,13 +18,13 @@ class ApplicationController < ActionController::Base
       end
     else
       # if its an api request (from mobile app)
-      if request.format.json? && !request.xhr?
+      if true || (request.format.json? && !request.xhr?)
         profile = nil
         authenticate_with_http_token do |token, _options|
-          profile = get_facebook_profile_by_token(token)
+          profile = get_facebook_profile_by_token(token, %i(email))
         end
         if profile
-          @current_user = User.find_by_email profile.try(:email)
+          @current_user = User.find_by_email profile['email']
           unless @current_user
             render json: { errors: ['could not set user given a valid facebook profile, account needs to be created'] }, status: :forbidden and return
           end
