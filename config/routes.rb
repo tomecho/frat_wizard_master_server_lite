@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  post '/verify_facebook', to: 'verify_facebook_token'
+  post '/verify_facebook', to: 'application#verify_facebook_token'
 
   get '/location/within', to: 'location#within'
   resources :location, except: %i(update)
