@@ -10,48 +10,80 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170910215320) do
+ActiveRecord::Schema.define(version: 20170531015523) do
 
   create_table "addresses", force: :cascade do |t|
-    t.string "street"
-    t.string "street2"
-    t.string "city"
-    t.string "state"
-    t.string "zip"
-    t.string "country"
+    t.string   "street"
+    t.string   "street2"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip"
+    t.string   "country"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "attendances", force: :cascade do |t|
-    t.integer  "event_id_id"
-    t.integer  "user_id_id"
+  create_table "group_permissions", force: :cascade do |t|
+    t.integer  "group_id"
+    t.integer  "permission_id"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
-    t.integer  "points_earned"
-    t.index ["event_id_id"], name: "index_attendances_on_event_id_id"
-    t.index ["user_id_id"], name: "index_attendances_on_user_id_id"
+    t.index ["group_id"], name: "index_group_permissions_on_group_id"
+    t.index ["permission_id"], name: "index_group_permissions_on_permission_id"
   end
 
-  create_table "events", force: :cascade do |t|
-    t.integer  "point_reward"
-    t.string   "name"
-    t.text     "description"
-    t.datetime "start_time"
-    t.datetime "end_time"
-    t.integer  "creator_id_id"
-    t.integer  "address_id"
+  create_table "group_users", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "user_id"
+    t.integer  "group_id"
+    t.index ["group_id"], name: "index_group_users_on_group_id"
+    t.index ["user_id"], name: "index_group_users_on_user_id"
+  end
+
+  create_table "groups", force: :cascade do |t|
     t.integer  "org_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.string   "name"
+    t.string   "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["org_id"], name: "index_groups_on_org_id"
   end
 
   create_table "locations", force: :cascade do |t|
-    t.string "long"
-    t.string "lat"
-    t.string "description"
+    t.string   "long"
+    t.string   "lat"
+    t.string   "description"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["user_id"], name: "index_locations_on_user_id"
+  end
+
+  create_table "org_claim_codes", force: :cascade do |t|
+    t.integer  "org_id"
+    t.string   "code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["org_id"], name: "index_org_claim_codes_on_org_id"
+  end
+
+  create_table "org_users", force: :cascade do |t|
+    t.integer  "org_id"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "orgs", force: :cascade do |t|
     t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "permissions", force: :cascade do |t|
+    t.string   "controller"
+    t.string   "action"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -3,56 +3,69 @@ require 'uri'
 require 'JSON'
 
 class ApplicationController < ActionController::Base
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
-  protect_from_forgery with: :null_session
-  before_action :auth_user, except: [:verify_facebook_token]
+  include ApplicationHelper
 
+  protect_from_forgery with: :null_session
+  before_action :auth_user, except: %i(verify_facebook_token)
+  before_action :check_permission, except: %i(verify_facebook_token)
+
+  # sets @current_user before any other controler (execpt the public actions)
   def auth_user
     if Rails.env.test?
       # test will force set @current_user
-      render(:head, status: :unauthorized) && return unless @current_user
+      unless @current_user
+        render json: { errors: ['unauthorized'] }, status: :unauthorized and return
+      end
     else
+      profile = nil
       authenticate_with_http_token do |token, _options|
-        success = use_facebook_token(token)
+        profile = get_facebook_profile_by_token(token)
       end
-
-      unless success && @current_user
-        render(:head, status: :unauthorized) && return
+      if profile
+        @current_user = User.find_by_email profile.try(:email)
+        unless @current_user
+          render json: { errors: ['could not set user given a valid facebook profile, account needs to be created'] }, status: :forbidden and return
+        end
+      else
+        render json: { errors: ['could not find facebook profile'] }, status: :unauthorized and return
       end
     end
   end
 
+  def check_permission
+    unless @current_user && @current_user.has_permission?(params[:controller], params[:action])
+      render json: { errors: ['user does not have permissions'] }, status: :unauthorized and return
+    end
+  end
+
+  # verify token and attempt to find user, if doesnt exist, create one
   def verify_facebook_token
-    binding.pry
-    success = false
     authenticate_with_http_token do |token, _options|
-      success = use_facebook_token(token)
+      profile = get_facebook_profile_by_token(token, %i(email first_name last_name))
+
+      if !profile
+        # not verified, cant create
+        render json: {errors: ['could not find profile from facebook']}, status: 401 and return
+      elsif user = User.find_by(email: profile['email'])
+        # found valid user
+        render json: user, status: 202 and return
+      else
+        # facebook sent us valid info lets try and create a profile
+        fields = profile.with_indifferent_access.keys
+        required_keys = %w(email first_name last_name)
+        if (fields & required_keys) == required_keys
+          user = User.new profile.select { |k| required_keys.include? k }
+          if user.save
+            # created user
+            render json: user, status: 201 and return
+          end
+          # very unlikely that it will fail
+        end
+
+        render json: { errors: ['failed to create user from facebook profile']}, status: 500 and return
+      end
     end
-
-    if success && @current_user # verified and found user
-      render nothing: true, status: 202 # accepted
-    elsif success && !@current_user # verified but no user found
-      render nothing: true, status: 204
-    else # not verified
-      render nothing: true, status: 401
-    end
-  end
-
-  private
-
-  def use_facebook_token(token)
-    binding.pry
-    return false if token.nil?
-    uri = URI.parse "https://graph.facebook.com/me?fields=email&access_token=#{token}"
-    fb = Net::HTTP.get_response(uri)
-
-    if fb && fb.code == '200'
-      email = JSON.parse(fb.body)['email'] # if this exists then facebook has verified the token and found user for it
-      user = User.find_by email: email
-      @current_user = user
-      return true if email
-    end
-    false
+    # above block will use token and return if they dont find one we get here
+    render json: { errors: ['authorization token not supplied']}, status: 422 and return
   end
 end

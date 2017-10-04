@@ -40,14 +40,9 @@ ratings:
   - "**.py"
 exclude_paths:
 - config/
-- db/
 - test/
-- vendor/
----
-exclude_paths:
 - coverage/
 - lib/templates
-- config/
 - db/
 - spec/
 - vendor/

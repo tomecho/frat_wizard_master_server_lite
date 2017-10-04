@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe UserController, type: :controller do
-  before { current_user } # sets user
-
   let(:u1) { create :user }
   let(:u2) { create :user }
   let!(:lots_of_users) { create_list :user, 5 }
@@ -49,19 +47,24 @@ RSpec.describe UserController, type: :controller do
     end
   end
 
-  context 'post #create' do
-    it 'creates a record given valid params' do
-      user = attributes_for(:user)
+  context 'POST #use_org_claim_code' do
+    it 'uses the code to join an org' do
+      u1
+      claim = create :org_claim_code
       expect do
-        post :create, params: { user: user }
-      end.to change(User, :count).by(1)
-      expect(response.code).to eq('200')
+        post :use_org_claim_code, params: { id: u1.id, org_claim_code: claim.code }
+      end.to change(u1.orgs,:count).by(1)
+      expect(u1.orgs.last).to eq claim.org
+      expect(response).to have_http_status :ok
+      expect(response.body).to eq(claim.org.to_json)
     end
 
-    it 'returns given invalid params' do
+    it 'wont join an org using a fake code' do
+      u1
       expect do
-        post :create, params: {}
-      end.to raise_error ActionController::ParameterMissing
+        post :use_org_claim_code, params: { id: u1.id, org_claim_code: 'fake' }
+      end.to change(u1.orgs,:count).by(0)
+      expect(response).to have_http_status 422
     end
   end
 end

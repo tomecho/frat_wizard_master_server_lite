@@ -18,6 +18,16 @@ RSpec.describe User, type: :model do
     end
   end
 
+  context 'orgs' do
+    it 'has assigned org' do
+      expect(build(:user, orgs: [ create(:org) ])).to have_attributes orgs: [ Org.last ]
+    end
+
+    it 'can have many orgs' do
+      expect(build(:user, orgs: create_list(:org, 2)).orgs).to match_array Org.all.last(2)
+    end
+  end
+
   context 'helper methods' do
     it 'gives a full name' do
       expect(user.name).to eq("#{user.first_name} #{user.last_name}")
@@ -32,6 +42,34 @@ RSpec.describe User, type: :model do
         create(:location, user: user)
         latest = create(:location, user: user)
         expect(user.latest_location).to eq(latest)
+      end
+    end
+
+    context 'helps with permissions' do
+      it 'positivly verifies perms' do
+        u = create :user, groups: [ create(:group, permissions: [create(:permission, controller: 'fake', action: 'for_test')])]
+        expect(u.has_permission?('fake', 'for_test')).to be true
+      end
+      it 'negativly verifies perms' do
+        u = create :user, groups: [ create(:group, permissions: [create(:permission, controller: 'fake', action: 'for_test')])]
+        expect(u.has_permission?('dont', 'have')).to be false
+      end
+    end
+
+    context 'org claim codes' do
+      it 'joins an org with a valid claim code' do
+        org = create :org
+        claim = create :org_claim_code, org: org
+        u = create(:user)
+        u.use_org_claim_code(claim.code)
+        expect(u.reload.orgs).to include org
+      end
+
+      it 'doesnt join an org given a fake code' do
+        u = create :user
+        expect do
+          u.use_org_claim_code('fake code')
+        end.to change(u.orgs,:count).by(0)
       end
     end
   end
