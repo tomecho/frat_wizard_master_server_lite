@@ -7,5 +7,7 @@ Rails.application.routes.draw do
   get '/user/:id/location', to: 'user#location'
   resources :user, except: %i(delete)
 
-  resources :orgs
+  resources :event
+  resources :orgs # this should probably be singular
+
 end
