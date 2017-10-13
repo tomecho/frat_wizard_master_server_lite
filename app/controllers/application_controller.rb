@@ -17,8 +17,8 @@ class ApplicationController < ActionController::Base
         render json: { errors: ['unauthorized'] }, status: :unauthorized and return
       end
     else
-      # if its an api request (from mobile app)
-      if true || (request.format.json? && !request.xhr?)
+      # TODO if its an api request (from mobile app)
+      if request_for_api?(request)
         profile = nil
         authenticate_with_http_token do |token, _options|
           profile = get_facebook_profile_by_token(token, %i(email))
