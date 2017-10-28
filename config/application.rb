@@ -30,6 +30,6 @@ module FratWizardMasterServer
       end
     end
 
-    Geocoder.configure(timeout: 6.seconds)
+    Geocoder.configure(timeout: 6.seconds, api_key: 'AIzaSyAVdz0F9IsZ37DX_qoLc0N8zZytqdKlObw')
   end
 end
