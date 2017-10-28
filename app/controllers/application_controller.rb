@@ -1,6 +1,6 @@
 require 'net/http'
 require 'uri'
-require 'JSON'
+require 'json'
 
 class ApplicationController < ActionController::Base
   include ApplicationHelper
