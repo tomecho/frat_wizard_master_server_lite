@@ -21,7 +21,6 @@ module FratWizardMasterServer
     # config.i18n.default_locale = :de
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.active_record.raise_in_transactional_callbacks = true
     config.action_dispatch.default_headers.merge!('Access-Control-Allow-Origin' => '*',
                                                   'Access-Control-Request-Method' => '*')
     config.middleware.insert_before 0, Rack::Cors do
@@ -30,5 +29,7 @@ module FratWizardMasterServer
         resource '*', headers: :any, methods: [:get, :post, :options]
       end
     end
+
+    Geocoder.configure(timeout: 6.seconds)
   end
 end
