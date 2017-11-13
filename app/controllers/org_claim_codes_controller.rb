@@ -1,7 +1,7 @@
 class OrgClaimCodesController < ApplicationController
   before_action :set_org_claim_code, only: %i(show destroy)
 
-  # given a claim code show the org
+  # TODO given a claim code show the org
   def show
   end
 
@@ -20,7 +20,7 @@ class OrgClaimCodesController < ApplicationController
     end
   end
 
-  # remove claim code by its id
+  # TODO remove claim code by its id
   def destroy
   end
 

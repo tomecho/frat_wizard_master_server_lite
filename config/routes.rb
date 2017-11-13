@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get '/', to: 'application#home', as: 'home'
   post '/verify_facebook', to: 'application#verify_facebook_token'
 
   get '/location/within', to: 'location#within'

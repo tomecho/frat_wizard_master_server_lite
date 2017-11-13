@@ -15,9 +15,12 @@
 /log/*
 !/log/.keep
 /tmp
+bower_components/
 
 # Ignore some coverage files
 coverage/.resultset.json
 coverage/.resultset.json.lock
 coverage/assets/*
 coverage/index.html
+
+*.DS_Store
