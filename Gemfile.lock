@@ -145,7 +145,6 @@ GEM
       ast (~> 2.2)
     parsley-rails (2.7.0.0)
       railties (>= 3.0.0)
-    pg (0.21.0)
     powerpack (0.1.1)
     pry (0.10.4)
       coderay (~> 1.1.0)
@@ -291,7 +290,6 @@ DEPENDENCIES
   geokit-rails
   jbuilder (~> 2.0)
   jquery-rails
-  pg
   pry
   pry-byebug
   rack-cors
@@ -311,4 +309,4 @@ DEPENDENCIES
   will_paginate (~> 3.1.0)
 
 BUNDLED WITH
-   1.15.4
+   1.16.1
