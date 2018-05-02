@@ -77,4 +77,7 @@ class ApplicationController < ActionController::Base
   def home
     render 'home', template: 'home'
   end
+
+  def login
+  end
 end
