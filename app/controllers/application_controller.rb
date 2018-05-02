@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
         render json: { errors: ['unauthorized'] }, status: :unauthorized and return
       end
     else
-      # TODO if its an api request (from mobile app)
+      # its an api request (from mobile app)
       if request_for_api?(request)
         profile = nil
         authenticate_with_http_token do |token, _options|
@@ -32,7 +32,8 @@ class ApplicationController < ActionController::Base
           render json: { errors: ['could not find facebook profile'] }, status: :unauthorized and return
         end
       else
-        # TODO else its a request for our web based app set user from session for force them to auth using omni auth
+        # else its a request for our web based app set user from session for force them to auth using omni auth
+        authenticate_user!
       end
     end
   end

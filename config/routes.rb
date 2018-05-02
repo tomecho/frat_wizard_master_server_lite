@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   get '/', to: 'application#home', as: 'home'
   post '/verify_facebook', to: 'application#verify_facebook_token'
 

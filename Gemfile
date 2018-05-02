@@ -25,6 +25,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'gentelella-rails'
 # user auth
 gem 'devise', '~> 4.2'
+gem 'omniauth'
+gem 'omniauth-facebook'
 
 # helps determine if point is within radius of another
 gem 'geocoder'
