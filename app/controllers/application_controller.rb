@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery with: :null_session
   before_action :auth_user, except: %i(verify_facebook_token)
-  before_action :check_permission, except: %i(verify_facebook_token home)
+  before_action :check_permission, except: %i(verify_facebook_token home), unless: -> { params[:controller] == 'devise/sessions' }
 
   # sets @current_user before any other controler (execpt the public actions)
   def auth_user
@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
       end
     else
       # its an api request (from mobile app)
-      if request_for_api?(request)
+      if request_for_api?(request) and false
         profile = nil
         authenticate_with_http_token do |token, _options|
           profile = get_facebook_profile_by_token(token, %i(email))
