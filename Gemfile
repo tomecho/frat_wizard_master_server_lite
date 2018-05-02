@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0', '>= 5.0.1'
+
 gem 'bootstrap-sass', '~> 3.3.6'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
@@ -22,6 +23,8 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 # admin panel theme
 gem 'gentelella-rails'
+# user auth
+gem 'devise', '~> 4.2'
 
 # helps determine if point is within radius of another
 gem 'geocoder'
