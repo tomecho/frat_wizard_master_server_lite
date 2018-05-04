@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery with: :null_session
   before_action :auth_user, except: %i(verify_facebook_token)
-  before_action :check_permission, except: %i(verify_facebook_token home), unless: -> { params[:controller] == 'devise/sessions' }
+  before_action :check_permission, except: %i(verify_facebook_token home), unless: -> { true }
 
   # sets @current_user before any other controler (execpt the public actions)
   def auth_user
