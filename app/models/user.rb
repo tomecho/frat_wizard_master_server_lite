@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   has_many :orgs, through: :org_users
   has_many :group_users
   has_many :groups, through: :group_users
-  validates :first_name, :last_name, :email, presence: true
+  validates :email, presence: true
   validates :email, uniqueness: true
 
   def use_org_claim_code(code)
@@ -41,7 +41,6 @@ class User < ActiveRecord::Base
 
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
-      binding.pry
       user.email = auth.info.email
       user.password = Devise.friendly_token[0,20]
       user.name = auth.info.name   # assuming the user model has a name
