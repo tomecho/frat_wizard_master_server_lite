@@ -17,6 +17,7 @@ class ApplicationController < ActionController::Base
         render json: { errors: ['unauthorized'] }, status: :unauthorized and return
       end
     else
+      binding.pry
       # its an api request (from mobile app)
       if request_for_api?(request) and false
         profile = nil
