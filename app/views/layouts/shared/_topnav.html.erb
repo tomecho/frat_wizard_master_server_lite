@@ -31,8 +31,8 @@
         <a>
           <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
           <span>
-            <span>John Smith</span>
-            <span class="time">3 mins ago</span>
+            <span><%= current_user.try(:name) || 'Guest' %></span>
+            <span class="time">Unknown</span>
           </span>
           <span class="message">
             Film festivals used to be do-or-die moments for movie makers. They were where...
