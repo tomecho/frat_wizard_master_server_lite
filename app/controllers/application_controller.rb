@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
     else
       binding.pry
       # its an api request (from mobile app)
-      if request_for_api?(request) and false
+      if request_for_api?(request)
         profile = nil
         authenticate_with_http_token do |token, _options|
           profile = get_facebook_profile_by_token(token, %i(email))
