@@ -12,13 +12,19 @@ module ApplicationHelper
 
   def request_for_api?(request)
     # if we have request.headers[:authorization].present? it can only be for api
-    # if we have a session[:user_id] this is not a request for the api
     if request.headers["Authorization"].present?
       return true
-    elsif session[:user_id] || request.fullpath == '/users/sign_in'
-      return false
     else
       return false
+    end
+  end
+
+  def has_permission?(controller, action, user)
+    binding.pry
+    if ['user::omniauth_callbacks', 'devise/sessions'].include? controller
+      return true
+    else
+      return user && user.has_permission(controller, action)
     end
   end
 end
