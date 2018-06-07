@@ -8,13 +8,13 @@ RSpec.describe UserController, type: :controller do
   context 'get #index' do
     it 'renders a list of all users' do
       get :index
-      expect(JSON.parse(response.body).collect { |u| u['first_name'] + ' ' + u['last_name'] }).to eq(User.all.collect(&:name))
+      expect(JSON.parse(response.body).collect { |u| u['name'] }).to eq(User.all.collect(&:name))
     end
 
     it 'handles pagination' do
       # lots_of_users
       get :index, params: { page: 1 }
-      expect(JSON.parse(response.body).collect { |u| u['first_name'] + ' ' + u['last_name'] }).to eq(User.all[0...10].collect(&:name))
+      expect(JSON.parse(response.body).collect { |u| u['name'] }).to eq(User.all[0...10].collect(&:name))
     end
   end
 
@@ -38,10 +38,9 @@ RSpec.describe UserController, type: :controller do
 
   context 'put #update' do
     it 'updates the record given valid params' do
-      put :update, params: { id: u1.id, user: { first_name: 'el', last_name: 'chapo' } }
+      put :update, params: { id: u1.id, user: { name: 'el chapo' } }
       u1.reload
-      expect(u1.first_name).to eq('el')
-      expect(u1.last_name).to eq('chapo')
+      expect(u1.name).to eq('el chapo')
       expect(response.code).to eq('200')
       expect(JSON.parse(response.body)).to eq(JSON.parse(u1.to_json))
     end
