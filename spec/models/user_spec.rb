@@ -9,12 +9,13 @@ RSpec.describe User, type: :model do
 
   context 'validations' do
     it 'validates presence of name' do
-      expect(build(:user, first_name: nil)).not_to be_valid
-      expect(build(:user, last_name: nil)).not_to be_valid
+      expect(build(:user, name: nil)).not_to be_valid
+      expect(build(:user, name: '')).not_to be_valid
     end
 
     it 'validates presnece of email' do
       expect(build(:user, email: nil)).not_to be_valid
+      expect(build(:user, email: '')).not_to be_valid
     end
   end
 
@@ -29,10 +30,6 @@ RSpec.describe User, type: :model do
   end
 
   context 'helper methods' do
-    it 'gives a full name' do
-      expect(user.name).to eq("#{user.first_name} #{user.last_name}")
-    end
-
     context 'latest_location' do
       it 'returns nil without locations' do
         expect(user.latest_location).to be_nil
