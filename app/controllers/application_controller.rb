@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery with: :null_session
   before_action :auth_user, except: %i(verify_facebook_token)
-  before_action :check_permission, except: %i(verify_facebook_token home)
+  before_action :check_permission
 
   # sets @current_user before any other controler (execpt the public actions)
   def auth_user
@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
   end
 
   def check_permission
-    unless has_permission?(params[:controller], params[:action], @current_user)
+    unless has_permission?(request, @current_user)
       render json: { errors: ['user does not have permissions'] }, status: :unauthorized and return
     end
   end

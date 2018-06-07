@@ -19,9 +19,11 @@ module ApplicationHelper
     end
   end
 
-  def has_permission?(controller, action, user)
-    binding.pry
-    if ['user::omniauth_callbacks', 'devise/sessions'].include? controller
+  def has_permission?(request, user)
+    auth_paths = ['/users/sign_in', '/users/auth/facebook/callback']
+    excluded_paths = ['/', '/home', '/verify_facebook_token']
+
+    if (auth_paths + excluded_paths).include?(request.path || '')
       return true
     else
       return user && user.has_permission(controller, action)
