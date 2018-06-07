@@ -32,9 +32,10 @@ describe ApplicationHelper do
         expect(has_permission?(instance_double("Request", path: '/home'), create(:user))).to be true
         expect(has_permission?(instance_double("Request", path: '/verify_facebook_token'), create(:user))).to be true
       end
+    end
 
-      it 'passes anything else on' do
-        user = double()
+    context 'checking permissions' do
+      it 'passes other requests on to check permissions form user' do
         request = instance_double("Request", path: '/users/4')
         my_application_helper = Class.new.extend(ApplicationHelper.clone)
         my_application_helper.instance_eval do
@@ -46,19 +47,18 @@ describe ApplicationHelper do
             'show'
           end
         end
+        user = double()
+        allow(user).to receive(:has_permission?).with('users', 'show').and_return(false)
+        expect(user).to receive(:has_permission?).with('users', 'show')
 
-        expect(my_application_helper.has_permission?(request, user)).to be true
-        expect(user).to.receive(:has_permission?).with('users', 'show')
+        expect(my_application_helper.has_permission?(request, user)).to be false
       end
-    end
 
-    context 'checking permissions' do
       it 'short circuts if user is nil' do
+        request = instance_double("Request", path: '/users/4')
+        user = nil
 
-      end
-
-      it 'calls check permission' do
-
+        expect(has_permission?(request, user)).to be_falsey
       end
     end
   end
