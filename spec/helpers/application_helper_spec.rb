@@ -17,4 +17,18 @@ describe ApplicationHelper do
       expect(get_facebook_profile_by_token('fake token', ['email'])).to be_falsey
     end
   end
+
+  context 'has_permission?' do
+    it 'allows auth paths' do
+
+    end
+
+    it 'allows excluded paths' do
+
+    end
+
+    it 'denies anything else' do
+
+    end
+  end
 end
