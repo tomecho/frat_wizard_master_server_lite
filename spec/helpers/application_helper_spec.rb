@@ -2,6 +2,8 @@
 require 'rails_helper'
 
 describe ApplicationHelper do
+  include ApplicationHelper
+
   context 'facebook graph api' do
     it 'gets facebook profile' do
       fb_response = instance_double('response', code: '200', body: '{"test": "success"}')
@@ -19,16 +21,45 @@ describe ApplicationHelper do
   end
 
   context 'has_permission?' do
-    it 'allows auth paths' do
+    context 'special paths' do
+      it 'allows auth paths' do
+        expect(has_permission?(instance_double("Request", path: '/users/sign_in'), create(:user))).to be true
+        expect(has_permission?(instance_double("Request", path: '/users/auth/facebook/callback'), create(:user))).to be true
+      end
 
+      it 'allows excluded paths' do
+        expect(has_permission?(instance_double("Request", path: '/'), create(:user))).to be true
+        expect(has_permission?(instance_double("Request", path: '/home'), create(:user))).to be true
+        expect(has_permission?(instance_double("Request", path: '/verify_facebook_token'), create(:user))).to be true
+      end
+
+      it 'passes anything else on' do
+        user = double()
+        request = instance_double("Request", path: '/users/4')
+        my_application_helper = Class.new.extend(ApplicationHelper.clone)
+        my_application_helper.instance_eval do
+          def controller_name 
+            'users'
+          end
+
+          def action_name
+            'show'
+          end
+        end
+
+        expect(my_application_helper.has_permission?(request, user)).to be true
+        expect(user).to.receive(:has_permission?).with('users', 'show')
+      end
     end
 
-    it 'allows excluded paths' do
+    context 'checking permissions' do
+      it 'short circuts if user is nil' do
 
-    end
+      end
 
-    it 'denies anything else' do
+      it 'calls check permission' do
 
+      end
     end
   end
 end
