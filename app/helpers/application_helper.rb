@@ -26,7 +26,7 @@ module ApplicationHelper
     if (auth_paths + excluded_paths).include?(request.path || '')
       return true
     else
-      return user && user.has_permission(controller, action)
+      return user && user.has_permission?(controller_name, action_name)
     end
   end
 end
