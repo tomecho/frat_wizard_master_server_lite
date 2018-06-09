@@ -11,18 +11,22 @@ module ApplicationHelper
   end
 
   def request_for_api?(request)
-    # TODO replace session[:user_id] with whatever omni auth (facebook auth providor for desktop site) comes up with
     # if we have request.headers[:authorization].present? it can only be for api
-    # if we have a session[:user_id] this is not a request for the api
-    # if we have request.headers[:accept].include? "application/json" this could be a either desktop or api request but we will assume its for api
-    # if request.fullpath == '/home' this is for desktop site
     if request.headers["Authorization"].present?
       return true
-    elsif session[:user_id] || request.fullpath == '/'
+    else
       return false
-    elsif request.headers["Accept"].include? "application/json"
-      return true # even if this is the desktop site just making an ajax request it isnt a big deal, they'll just get a 401
     end
-    true # default is true
+  end
+
+  def has_permission?(request, user)
+    auth_paths = ['/users/sign_in', '/users/auth/facebook/callback']
+    excluded_paths = ['/', '/home', '/verify_facebook_token']
+
+    if (auth_paths + excluded_paths).include?(request.path || '')
+      return true
+    else
+      return user && user.has_permission?(controller_name, action_name)
+    end
   end
 end

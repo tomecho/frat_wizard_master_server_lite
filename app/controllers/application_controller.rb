@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery with: :null_session
   before_action :auth_user, except: %i(verify_facebook_token)
-  before_action :check_permission, except: %i(verify_facebook_token home)
+  before_action :check_permission
 
   # sets @current_user before any other controler (execpt the public actions)
   def auth_user
@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
         render json: { errors: ['unauthorized'] }, status: :unauthorized and return
       end
     else
-      # TODO if its an api request (from mobile app)
+      # its an api request (from mobile app)
       if request_for_api?(request)
         profile = nil
         authenticate_with_http_token do |token, _options|
@@ -32,13 +32,14 @@ class ApplicationController < ActionController::Base
           render json: { errors: ['could not find facebook profile'] }, status: :unauthorized and return
         end
       else
-        # TODO else its a request for our web based app set user from session for force them to auth using omni auth
+        # else its a request for our web based app set user from session for force them to auth using omni auth
+        authenticate_user!
       end
     end
   end
 
   def check_permission
-    unless @current_user && @current_user.has_permission?(params[:controller], params[:action])
+    unless has_permission?(request, @current_user)
       render json: { errors: ['user does not have permissions'] }, status: :unauthorized and return
     end
   end
@@ -76,5 +77,8 @@ class ApplicationController < ActionController::Base
 
   def home
     render 'home', template: 'home'
+  end
+
+  def login
   end
 end
