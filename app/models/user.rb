@@ -1,11 +1,12 @@
 class User < ActiveRecord::Base
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable, :omniauthable
   self.per_page = 10
   has_many :location
   has_many :org_users
   has_many :orgs, through: :org_users
   has_many :group_users
   has_many :groups, through: :group_users
-  validates :first_name, :last_name, :email, presence: true
+  validates :email, :name, presence: true
   validates :email, uniqueness: true
 
   def use_org_claim_code(code)
@@ -14,10 +15,6 @@ class User < ActiveRecord::Base
       self.orgs << claim.org
       return claim.org
     end
-  end
-
-  def name
-    "#{first_name} #{last_name}"
   end
 
   def latest_location
@@ -36,5 +33,17 @@ class User < ActiveRecord::Base
 
   def is_super_user?
     return has_permission?('*', '*')
+  end
+
+  def self.from_omniauth(auth)
+    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+      user.email = auth.info.email
+      user.password = Devise.friendly_token[0,20]
+      user.name = auth.info.name   # assuming the user model has a name
+      user.image = auth.info.image # assuming the user model has an image
+      # If you are using confirmable and the provider(s) you use validate emails, 
+      # uncomment the line below to skip the confirmation emails.
+      # user.skip_confirmation!
+    end
   end
 end

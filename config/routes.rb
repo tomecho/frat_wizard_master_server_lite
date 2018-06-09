@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users, controllers: { omniauth_callbacks: "user/omniauth_callbacks" }
   get '/', to: 'application#home', as: 'home'
   post '/verify_facebook', to: 'application#verify_facebook_token'
 
