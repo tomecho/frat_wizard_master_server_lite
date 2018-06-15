@@ -29,4 +29,9 @@ module ApplicationHelper
       return user && user.has_permission?(controller_name, action_name)
     end
   end
+
+	# only renders link if we can visit it
+	def safe_link_to(name = nil, options = nil, html_options = nil, &block)
+		ActionView::Helpers::UrlHelper.link_to(name, options, html_options)
+	end
 end
