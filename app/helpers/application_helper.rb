@@ -49,7 +49,7 @@ module ApplicationHelper
 		end
 
 		# Always create the link if it isn't a relative path and not permission controlled
-		return super(name, url_options, html_options, &block) unless url.start_with?('/')
+		return link_to(name, url_options, html_options, &block) unless url.start_with?('/')
 
 		# Assume get
 		method = 'get'
@@ -60,7 +60,7 @@ module ApplicationHelper
 		route = Rails.application.routes.recognize_path url, method: method
 
 		# Return the link as normal if the current user has the permission
-		return super(name, url_options, html_options, &block) if @current_user.has_permission?(route[:controller], route[:action], route[:id])
+		return link_to(name, url_options, html_options, &block) if @current_user.has_permission?(route[:controller], route[:action], route[:id])
 
 		# Raise an error if the link is hidden but the user is omni and should see all links
 		# raise "Link not rendered for omni user, please check this" if @current_user.groups.find_by(name: "omni").present?
