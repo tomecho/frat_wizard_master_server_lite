@@ -65,12 +65,13 @@ describe ApplicationHelper do
 
   describe '#safe_link_to' do
     it 'returns nil if @current_user does not have access to an object' do
-      expect(safe_link_to('user', user_path)).to be_nil
+      current_user
+      expect(safe_link_to('user', user_index_path)).to be_nil
     end
 
     it 'returns html if @current user does have access to a route' do
       current_user(super_user)
-      expect(safe_link_to('user', user_path)).to include('href', 'user')
+      expect(safe_link_to('user', user_index_path)).to include('href', 'user')
     end
 
     it 'returns html if @current user does have access to an object' do
