@@ -61,5 +61,9 @@ describe ApplicationHelper do
         expect(has_permission?(request, user)).to be_falsey
       end
     end
+
+    context 'safe_link_to' do
+      safe_link_to(
+    end
   end
 end
