@@ -62,4 +62,28 @@ describe ApplicationHelper do
       end
     end
   end
+
+  describe '#safe_link_to' do
+    it 'returns nil if @current_user does not have access to an object' do
+      current_user
+      expect(safe_link_to('user', user_index_path)).to be_nil
+    end
+
+    it 'returns html if @current user does have access to a route' do
+      current_user(super_user)
+      expect(safe_link_to('user', user_index_path)).to include('href', 'user')
+    end
+
+    it 'returns html if @current user does have access to an object' do
+      current_user(super_user)
+      user = create(:user)
+      expect(safe_link_to('user', user_path(user))).to include('href', 'user', user.id.to_s)
+    end
+
+    it 'returns html if @current user does have access to an object, with block options' do
+      current_user(super_user)
+      user = create(:user)
+      expect(safe_link_to(user) { user.id }).to include('href', 'user', user.id.to_s)
+    end
+  end
 end
