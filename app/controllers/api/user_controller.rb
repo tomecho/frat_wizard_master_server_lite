@@ -1,48 +1,50 @@
-class UserController < ApplicationController
-  before_action :find_user, except: %i(index)
+module API
+  class UserController < ApplicationController
+    before_action :find_user, except: %i(index)
 
-  def index
-    page = params[:page]
-    if page
-      render json: User.paginate(page: page).to_a
-    else
-      render json: User.all
+    def index
+      page = params[:page]
+      if page
+        render json: User.paginate(page: page).to_a
+      else
+        render json: User.all
+      end
     end
-  end
 
-  def update
-    if @user.update(user_params)
+    def update
+      if @user.update(user_params)
+        render json: @user
+      else
+        render json: @user, status: 500
+      end
+    end
+
+    def show
       render json: @user
-    else
-      render json: @user, status: 500
     end
-  end
 
-  def show
-    render json: @user
-  end
-
-  def location
-    render json: @user.latest_location
-  end
-
-  def use_org_claim_code
-    # this method returns which if any org was joined
-    org = @user.use_org_claim_code(params.require(:org_claim_code))
-    if org
-      render json: org
-    else
-      head 422
+    def location
+      render json: @user.latest_location
     end
-  end
 
-  private
+    def use_org_claim_code
+      # this method returns which if any org was joined
+      org = @user.use_org_claim_code(params.require(:org_claim_code))
+      if org
+        render json: org
+      else
+        head 422
+      end
+    end
 
-  def user_params
-    params.require(:user).permit(:name)
-  end
+    private
 
-  def find_user
-    @user = User.find(params.require(:id))
+    def user_params
+      params.require(:user).permit(:name)
+    end
+
+    def find_user
+      @user = User.find(params.require(:id))
+    end
   end
 end
