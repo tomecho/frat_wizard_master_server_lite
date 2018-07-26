@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe OrgsController, type: :controller do
+RSpec.describe API::OrgsController, type: :controller do
   let(:org) { create :org }
   let(:valid_attributes) { attributes_for :org }
 

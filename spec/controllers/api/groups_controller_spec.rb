@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
-describe GroupsController do
+describe API::GroupsController do
   let!(:group) { create(:group) }
   let!(:group2) { create(:group) }
 
