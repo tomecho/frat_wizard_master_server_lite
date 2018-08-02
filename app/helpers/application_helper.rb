@@ -12,7 +12,7 @@ module ApplicationHelper
 
   def request_for_api?(request)
     # if we have request.headers[:authorization].present? it can only be for api
-    if request.headers["Authorization"].present?
+    if request.headers["Authorization"].present? || request.path.starts_with("/api/")
       return true
     else
       return false

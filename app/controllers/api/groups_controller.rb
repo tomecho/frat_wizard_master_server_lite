@@ -1,4 +1,4 @@
-module API
+module Api
   class GroupsController < ApplicationController
     before_action :set_group, except: %i(index create)
 

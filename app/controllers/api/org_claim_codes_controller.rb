@@ -1,4 +1,4 @@
-module API
+module Api
   class OrgClaimCodesController < ApplicationController
     before_action :set_org_claim_code, only: %i(show destroy)
 

@@ -66,7 +66,7 @@ describe ApplicationHelper do
   describe '#safe_link_to' do
     it 'returns nil if @current_user does not have access to an object' do
       current_user
-      expect(safe_link_to('user', user_index_path)).to be_nil
+      expect(safe_link_to('user', api_user_index_path)).to be_nil
     end
 
     it 'returns html if @current user does have access to a route' do
