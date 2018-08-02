@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe API::OrgClaimCodesController, type: :controller do
+RSpec.describe Api::OrgClaimCodesController, type: :controller do
   let(:org) { create(:org) }
 
   describe '#create' do
