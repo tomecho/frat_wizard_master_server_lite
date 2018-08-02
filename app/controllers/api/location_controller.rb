@@ -1,4 +1,4 @@
-module API
+module Api
   class LocationController < ApplicationController
     before_action :find_loc, only: [:show]
     before_action :set_data, only: [:create]

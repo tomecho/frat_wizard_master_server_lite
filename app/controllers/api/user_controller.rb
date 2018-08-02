@@ -1,4 +1,4 @@
-module API
+module Api
   class UserController < ApplicationController
     before_action :find_user, except: %i(index)
 
