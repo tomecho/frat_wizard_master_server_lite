@@ -31,7 +31,7 @@ module ApplicationHelper
   end
 
   # only renders link if we can visit it
-  def safe_link_to(name = nil, url_options = nil, html_options = nil, &block)
+  def safe_link_to(name = nil, url_options = nil, html_options = nil)
     # Convert given options to a usable url, this allows:
     #   link_to(@object) do ... end
     #   link_to "Link text", @model ...
@@ -60,7 +60,7 @@ module ApplicationHelper
     route = Rails.application.routes.recognize_path url, method: method
 
     # Return the link as normal if the current user has the permission
-    return link_to(name, url_options, html_options, &block) if @current_user.has_permission?(route[:controller], route[:action])
+    return link_to(name, url_options, html_options) if @current_user.has_permission?(route[:controller], route[:action])
 
     # Raise an error if the link is hidden but the user is omni and should see all links
     # raise "Link not rendered for omni user, please check this" if @current_user.groups.find_by(name: "omni").present?
