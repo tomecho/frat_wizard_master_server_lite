@@ -39,7 +39,7 @@ describe ApplicationHelper do
         request = instance_double("Request", path: '/users/4')
         my_application_helper = Class.new.extend(ApplicationHelper.clone)
         my_application_helper.instance_eval do
-          def controller_name 
+          def controller_path
             'users'
           end
 

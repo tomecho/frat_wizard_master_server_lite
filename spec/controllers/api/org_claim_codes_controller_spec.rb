@@ -9,13 +9,14 @@ RSpec.describe Api::OrgClaimCodesController, type: :controller do
         current_user(
           create(:user, orgs: [org], groups: [
             create(:group, permissions: [
-              Permission.find_by(controller: 'org_claim_codes', action: 'create')
+              Permission.find_by(controller: 'api/org_claim_codes', action: 'create')
             ])
           ])
         )
 
-        expect do
           post :create, params: { org_claim_codes: { org_id: org.id } }
+          binding.pry
+        expect do
         end.to change(OrgClaimCode, :count).by(1)
       end
 
@@ -30,7 +31,7 @@ RSpec.describe Api::OrgClaimCodesController, type: :controller do
         current_user(
           create(:user, orgs: [create(:org)], groups: [
             create(:group, permissions: [
-              Permission.find_by(controller: 'org_claim_codes', action: 'create')
+              Permission.find_by(controller: 'api/org_claim_codes', action: 'create')
             ])
           ])
         )
@@ -57,7 +58,7 @@ RSpec.describe Api::OrgClaimCodesController, type: :controller do
         current_user(
           create(:user, orgs: [org], groups: [
             create(:group, permissions: [
-              Permission.find_by(controller: 'org_claim_codes', action: 'create')
+              Permission.find_by(controller: 'api/org_claim_codes', action: 'create')
             ])
           ])
         )
