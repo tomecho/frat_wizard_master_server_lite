@@ -20,9 +20,9 @@ module ApplicationHelper
   end
 
   def has_permission?(request, user)
-    binding.pry
     auth_paths = ['/users/sign_in', '/users/auth/facebook/callback']
     excluded_paths = ['/', '/home', '/verify_facebook_token']
+
     if (auth_paths + excluded_paths).include?(request.path || '')
       return true
     else
