@@ -14,9 +14,8 @@ RSpec.describe Api::OrgClaimCodesController, type: :controller do
           ])
         )
 
-          post :create, params: { org_claim_codes: { org_id: org.id } }
-          binding.pry
         expect do
+          post :create, params: { org_claim_codes: { org_id: org.id } }
         end.to change(OrgClaimCode, :count).by(1)
       end
 
