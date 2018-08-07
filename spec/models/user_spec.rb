@@ -51,6 +51,10 @@ RSpec.describe User, type: :model do
         u = create :user, groups: [ create(:group, permissions: [create(:permission, controller: 'fake', action: 'for_test')])]
         expect(u.has_permission?('dont', 'have')).to be false
       end
+      it 'consider special permissions' do
+        u = create :user, groups: [ create(:group, permissions: [Permission.find_by(controller: '*', action: '*')])]
+        expect(u.has_permission?('dont', 'have')).to be true
+      end
     end
 
     context 'org claim codes' do
