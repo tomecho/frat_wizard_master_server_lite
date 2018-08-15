@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe OrgClaimCodesController, type: :controller do
+RSpec.describe Api::OrgClaimCodesController, type: :controller do
   let(:org) { create(:org) }
 
   describe '#create' do
@@ -9,7 +9,7 @@ RSpec.describe OrgClaimCodesController, type: :controller do
         current_user(
           create(:user, orgs: [org], groups: [
             create(:group, permissions: [
-              Permission.find_by(controller: 'org_claim_codes', action: 'create')
+              Permission.find_by(controller: 'api/org_claim_codes', action: 'create')
             ])
           ])
         )
@@ -30,7 +30,7 @@ RSpec.describe OrgClaimCodesController, type: :controller do
         current_user(
           create(:user, orgs: [create(:org)], groups: [
             create(:group, permissions: [
-              Permission.find_by(controller: 'org_claim_codes', action: 'create')
+              Permission.find_by(controller: 'api/org_claim_codes', action: 'create')
             ])
           ])
         )
@@ -57,7 +57,7 @@ RSpec.describe OrgClaimCodesController, type: :controller do
         current_user(
           create(:user, orgs: [org], groups: [
             create(:group, permissions: [
-              Permission.find_by(controller: 'org_claim_codes', action: 'create')
+              Permission.find_by(controller: 'api/org_claim_codes', action: 'create')
             ])
           ])
         )

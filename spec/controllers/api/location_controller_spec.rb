@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe LocationController, type: :controller do
+RSpec.describe Api::LocationController, type: :controller do
   it 'get #index' do
     u1 = create :user
     create :location, user: u1
