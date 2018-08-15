@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe UserController, type: :controller do
+RSpec.describe Api::UserController, type: :controller do
   let(:u1) { create :user }
   let(:u2) { create :user }
   let!(:lots_of_users) { create_list :user, 5 }

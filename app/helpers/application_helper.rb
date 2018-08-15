@@ -12,7 +12,7 @@ module ApplicationHelper
 
   def request_for_api?(request)
     # if we have request.headers[:authorization].present? it can only be for api
-    if request.headers["Authorization"].present?
+    if request.headers["Authorization"].present? || request.path.starts_with("/api/")
       return true
     else
       return false
@@ -22,15 +22,16 @@ module ApplicationHelper
   def has_permission?(request, user)
     auth_paths = ['/users/sign_in', '/users/auth/facebook/callback']
     excluded_paths = ['/', '/home', '/verify_facebook_token']
+
     if (auth_paths + excluded_paths).include?(request.path || '')
       return true
     else
-      return user && user.has_permission?(controller_name, action_name)
+      return user && user.has_permission?(controller_path, action_name)
     end
   end
 
   # only renders link if we can visit it
-  def safe_link_to(name = nil, url_options = nil, html_options = nil, &block)
+  def safe_link_to(name = nil, url_options = nil, html_options = nil)
     # Convert given options to a usable url, this allows:
     #   link_to(@object) do ... end
     #   link_to "Link text", @model ...
@@ -59,7 +60,7 @@ module ApplicationHelper
     route = Rails.application.routes.recognize_path url, method: method
 
     # Return the link as normal if the current user has the permission
-    return link_to(name, url_options, html_options, &block) if @current_user.has_permission?(route[:controller], route[:action])
+    return link_to(name, url_options, html_options) if @current_user.has_permission?(route[:controller], route[:action])
 
     # Raise an error if the link is hidden but the user is omni and should see all links
     # raise "Link not rendered for omni user, please check this" if @current_user.groups.find_by(name: "omni").present?
