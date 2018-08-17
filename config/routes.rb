@@ -2,8 +2,9 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: "user/omniauth_callbacks" }
   get '/', to: 'application#home', as: 'home'
 
-  namespace :api do
-    post '/verify_facebook', to: 'application#verify_facebook_token'
+  post '/verify_facebook_token', to: 'application#verify_facebook_token'
+
+  namespace :api do    
 
     get '/location/within', to: 'location#within'
     resources :location, except: %i(update)

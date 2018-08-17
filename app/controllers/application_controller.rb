@@ -58,7 +58,7 @@ class ApplicationController < ActionController::Base
       else
         # facebook sent us valid info lets try and create a profile
         fields = profile.with_indifferent_access.keys
-        required_keys = %w(email first_name last_name)
+        required_keys = %w(email)
         if (fields & required_keys) == required_keys
           user = User.new profile.select { |k| required_keys.include? k }
           if user.save
