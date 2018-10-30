@@ -76,11 +76,13 @@ RSpec.describe Api::OrgClaimCodesController, type: :controller do
   end
 
   describe '#show' do
-    it 'gives information about the supplied claim code' do
-      skip('not yet implemented')
-      org = create(:org_claim_code, org: create(:org, name: 'fratty frat bros'))
-      get :show, params: { org_claim_code: org }
+    it 'gives information about the supplied claim code by code' do
+      claim = create(:org_claim_code, org: create(:org, name: 'fratty frat bros'))
+      get :show, params: { org_claim_codes: { code: claim.code } }
       expect(JSON.parse(response)).to have_attributes(org_name: 'fratty frat bros')
+    end
+
+    it 'gives information about the supplied claim code by id' do
     end
   end
 
