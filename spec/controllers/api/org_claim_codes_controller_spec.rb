@@ -83,6 +83,9 @@ RSpec.describe Api::OrgClaimCodesController, type: :controller do
     end
 
     it 'gives information about the supplied claim code by id' do
+      claim = create(:org_claim_code)
+      get :show, params: { id: claim.id }
+      expect(JSON.parse(response.body)["org_id"]).to eq(claim.org.id)
     end
   end
 
