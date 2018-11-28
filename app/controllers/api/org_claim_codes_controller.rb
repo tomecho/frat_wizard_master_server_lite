@@ -1,6 +1,6 @@
 module Api
   class OrgClaimCodesController < ApplicationController
-    before_action :find_org_claim_code, only: %i(show destroy)
+    before_action :find_org_claim_code, only: %i(show)
 
     def show
       render json: @claim
@@ -21,8 +21,10 @@ module Api
       end
     end
 
-    # TODO remove claim code by its id
+    # remove claim code by its id
     def destroy
+      OrgClaimCode.find(params[:id]).destroy
+      head :no_content
     end
 
     private
