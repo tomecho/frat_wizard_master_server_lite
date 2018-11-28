@@ -91,11 +91,10 @@ RSpec.describe Api::OrgClaimCodesController, type: :controller do
 
   describe '#destroy' do
     it 'renders the claim code inoperable but does not remove it' do
-      skip('not yet implemented')
-      org = create(:org_claim_code)
+      claim = create(:org_claim_code)
       expect do
-        delete :destroy, params: { org_claim_code: org }
-      end.to change(OrgClaimCode, :count).by 1
+        delete :destroy, params: { id: claim }
+      end.to change(OrgClaimCode, :count).by(-1)
     end
   end
 end
