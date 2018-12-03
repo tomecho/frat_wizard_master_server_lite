@@ -5,7 +5,6 @@ Rails.application.routes.draw do
   post '/verify_facebook_token', to: 'application#verify_facebook_token'
 
   namespace :api do    
-
     get '/location/within', to: 'location#within'
     resources :location, except: %i(update)
 
@@ -14,7 +13,9 @@ Rails.application.routes.draw do
     resources :user, except: %i(delete create)
 
     resources :orgs, except: %i(new edit)
-    resources :org_claim_codes, only: %i(show create destroy)
+    
+    get '/org_claim_codes', to: 'org_claim_codes#show'
+    resources :org_claim_codes, only: %i(create destroy)
 
     post '/groups/:id/add_user', to: 'groups#add_user'
     delete '/groups/:id/remove_user', to: 'groups#remove_user'

@@ -1,9 +1,9 @@
 module Api
   class OrgClaimCodesController < ApplicationController
-    before_action :set_org_claim_code, only: %i(show destroy)
+    before_action :find_org_claim_code, only: %i(show)
 
-    # TODO given a claim code show the org
     def show
+      render json: @claim
     end
 
     # create new claim code based on org_id
@@ -21,14 +21,20 @@ module Api
       end
     end
 
-    # TODO remove claim code by its id
+    # remove claim code by its id
     def destroy
+      OrgClaimCode.find(params[:id]).destroy
+      head :no_content
     end
 
     private
 
-    def set_org_claim_code
-      params.require(:org_claim_codes).permit(:id)
+    def find_org_claim_code
+      if id = params[:id]
+        @claim = OrgClaimCode.find(id)
+      elsif claim_code = params[:code]
+        @claim = OrgClaimCode.find_by_code(claim_code)
+      end
     end
 
     def new_org_claim_code_params

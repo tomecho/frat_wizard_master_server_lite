@@ -54,43 +54,36 @@ RSpec.describe Api::OrgClaimCodesController, type: :controller do
 
     context 'response' do
       it 'returns the object to requester' do
-        current_user(
-          create(:user, orgs: [org], groups: [
-            create(:group, permissions: [
-              Permission.find_by(controller: 'api/org_claim_codes', action: 'create')
-            ])
-          ])
-        )
-
         post :create, params: { org_claim_codes: { org_id: org.id } }
 
         json = JSON.parse(response.body)
         expect(json["code"]).to be_present
         expect(json["org_id"]).to be_present
       end
-      it 'can recover from errors' do
-        skip('find way to test this')
-        expect(response).to have_http_status 422
-      end
     end
   end
 
   describe '#show' do
-    it 'gives information about the supplied claim code' do
-      skip('not yet implemented')
-      org = create(:org_claim_code, org: create(:org, name: 'fratty frat bros'))
-      get :show, params: { org_claim_code: org }
-      expect(JSON.parse(response)).to have_attributes(org_name: 'fratty frat bros')
+    it 'gives information about the supplied claim code by code' do
+      claim = create(:org_claim_code)
+      get :show, params: { code: claim.code }
+      expect(JSON.parse(response.body)["org_id"]).to eq(claim.org.id)
+    end
+
+    it 'gives information about the supplied claim code by id' do
+      claim = create(:org_claim_code)
+      get :show, params: { id: claim.id }
+      expect(JSON.parse(response.body)["org_id"]).to eq(claim.org.id)
     end
   end
 
   describe '#destroy' do
-    it 'renders the claim code inoperable but does not remove it' do
-      skip('not yet implemented')
-      org = create(:org_claim_code)
+    it 'deletes the claim code' do
+      claim = create(:org_claim_code)
       expect do
-        delete :destroy, params: { org_claim_code: org }
-      end.to change(OrgClaimCode, :count).by 1
+        delete :destroy, params: { id: claim }
+      end.to change(OrgClaimCode, :count).by(-1)
+      expect(OrgClaimCode.find_by_id(claim.id)).to be_nil
     end
   end
 end
