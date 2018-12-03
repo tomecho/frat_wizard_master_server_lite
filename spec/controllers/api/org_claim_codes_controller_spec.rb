@@ -54,23 +54,11 @@ RSpec.describe Api::OrgClaimCodesController, type: :controller do
 
     context 'response' do
       it 'returns the object to requester' do
-        current_user(
-          create(:user, orgs: [org], groups: [
-            create(:group, permissions: [
-              Permission.find_by(controller: 'api/org_claim_codes', action: 'create')
-            ])
-          ])
-        )
-
         post :create, params: { org_claim_codes: { org_id: org.id } }
 
         json = JSON.parse(response.body)
         expect(json["code"]).to be_present
         expect(json["org_id"]).to be_present
-      end
-      it 'can recover from errors' do
-        skip('find way to test this')
-        expect(response).to have_http_status 422
       end
     end
   end
@@ -90,11 +78,12 @@ RSpec.describe Api::OrgClaimCodesController, type: :controller do
   end
 
   describe '#destroy' do
-    it 'renders the claim code inoperable but does not remove it' do
+    it 'deletes the claim code' do
       claim = create(:org_claim_code)
       expect do
         delete :destroy, params: { id: claim }
       end.to change(OrgClaimCode, :count).by(-1)
+      expect(OrgClaimCode.find_by_id(claim.id)).to be_nil
     end
   end
 end
