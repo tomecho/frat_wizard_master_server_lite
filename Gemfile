@@ -38,7 +38,7 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'sqlite3'
   gem 'byebug'
-  gem 'rubocop', '~> 0.39.0', require: false
+  gem 'rubocop', '~> 0.48.1', require: false
   gem 'rspec-rails'
   gem 'capybara'
   gem 'pry-byebug'
