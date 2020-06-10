@@ -112,7 +112,7 @@ GEM
       sass-rails (>= 5.0)
       select2-rails
       switchery-rails
-    geocoder (1.4.4)
+    geocoder (1.6.1)
     geokit (1.11.0)
     geokit-rails (2.3.0)
       geokit (~> 1.5)
