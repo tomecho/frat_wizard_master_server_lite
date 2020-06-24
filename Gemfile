@@ -24,7 +24,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # admin panel theme
 gem 'gentelella-rails'
 # user auth
-gem 'devise', '~> 4.2'
+gem 'devise', '~> 4.7'
 gem 'omniauth'
 gem 'omniauth-facebook'
 
